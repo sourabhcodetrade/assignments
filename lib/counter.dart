@@ -7,6 +7,7 @@ class CounterProvider extends ChangeNotifier {
 
   void incrementCounter() {
     _count++;
+    print(_count);
     notifyListeners();
   }
 }

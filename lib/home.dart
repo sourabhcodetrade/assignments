@@ -9,7 +9,9 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<CounterProvider>(context,listen: true);
+    // final counter = Provider.of<CounterProvider>(context,listen: true);
+    // final counter = context.read<CounterProvider>();
+    final counter = context.watch<CounterProvider>();
     final count = counter.count;
     return Scaffold(
       appBar: AppBar(
