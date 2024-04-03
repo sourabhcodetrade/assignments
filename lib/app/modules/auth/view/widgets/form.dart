@@ -27,15 +27,6 @@ class MyForm extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Text(
-            "Sign Up",
-            style: TextStyle(
-              fontSize: 30,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
             child: TextInputField(
@@ -55,24 +46,6 @@ class MyForm extends StatelessWidget {
                 validator: "Please enter your Password"),
           ),
           const SizedBox(height: 20.0),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
-            ),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                String email = _emailController.text;
-                String password = _passwordController.text;
-                Navigator.pushNamed(context, '/home');
-              }
-            },
-            child: const Text(
-              'Submit',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
         ],
       ),
     );

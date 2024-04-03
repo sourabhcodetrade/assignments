@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../auth/controller/auth_controller.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final authController = Provider.of<AuthController>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,7 +18,35 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Welcom"),
+            const Text(
+              "Welcome",
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const Text(
+              'user email',
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.black87),
+              ),
+              onPressed: () async {
+                await authController.signOut();
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ],
         ),
       ),

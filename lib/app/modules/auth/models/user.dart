@@ -1,23 +1,21 @@
 
-class MyUser {
-  final String email;
-  final String password;
+class User {
+  final String? email;
   final String uid;
 
-  MyUser({required this.email, required this.password, required this.uid});
+  User({required this.email, required this.uid});
 
   //App(MyUser) - firebase
-  Map<String, dynamic> toJson() => {
-        "email": email,
-        "password": password,
-        "uid": uid,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "email": email,
+  //       "password": uid,
+  //     };
 
-//firebase - App(MyUser)
-//   static MyUser fromSnap(DocumentSnapshot snap) {
+// firebase - App(MyUser)
+//   static User fromSnap(DocumentSnapshot snap) {
 //     var snapshot = snap.data() as Map<String, dynamic>;
 //
-//     return MyUser(
+//     return User(
 //         email: snapshot["email"],
 //         password: snapshot["password"],
 //         uid: snapshot["uid"]);
