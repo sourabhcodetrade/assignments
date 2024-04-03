@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "179303071162",
+    "project_id": "mvcapp-540be",
+    "storage_bucket": "mvcapp-540be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179303071162:android:e237babe971737513cb183",
+        "android_client_info": {
+          "package_name": "com.example.mvc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQjEgN2n22yyQVBFinR3AaRxrFeajNuTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
