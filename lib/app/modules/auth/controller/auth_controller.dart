@@ -13,6 +13,7 @@ class AuthController {
     return User(email: user.email, uid: user.uid);
   }
 
+
   Stream<User?>? get user {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
@@ -27,7 +28,8 @@ class AuthController {
           email: email, password: password);
       return _userFromFirebase(credential.user);
     } on auth.FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
           duration: const Duration(seconds: 3),
@@ -39,8 +41,10 @@ class AuthController {
           ),
         ),
       );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
           duration: const Duration(seconds: 3),
@@ -52,6 +56,7 @@ class AuthController {
           ),
         ),
       );
+      }
     }
     return null;
   }
@@ -66,7 +71,8 @@ class AuthController {
           email: email, password: password);
       return _userFromFirebase(credential.user);
     } on auth.FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
           duration: const Duration(seconds: 3),
@@ -78,8 +84,10 @@ class AuthController {
           ),
         ),
       );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
           duration: const Duration(seconds: 3),
@@ -91,6 +99,7 @@ class AuthController {
           ),
         ),
       );
+      }
     }
     return null;
   }

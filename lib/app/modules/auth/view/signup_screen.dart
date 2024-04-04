@@ -23,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -55,8 +55,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           password: passwordController.text,
                           context: context);
                   if (user != null) {
-                    Navigator.pushReplacementNamed(context, Routes.homeScreen);
-                  } else {}
+                    if (context.mounted) Navigator.pushReplacementNamed(context, Routes.homeScreen);
+                  }
                 }
               },
               child: const Text(

@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final authController = Provider.of<AuthController>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.blueAccent,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -46,16 +46,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialStateProperty.all<Color>(Colors.black87),
               ),
               onPressed: () async {
-                if (formKey.currentState!.validate() && validatePassword(passwordController.text,context)) {
+                if (formKey.currentState!.validate() &&
+                    validatePassword(passwordController.text, context)) {
                   final user = await authController.signInWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
-                    context: context
-                  );
+                      context: context);
                   if (user != null) {
-                    Navigator.pushReplacementNamed(context, Routes.homeScreen);
-                  } else {
-
+                    if (context.mounted) {
+                      Navigator.pushReplacementNamed(
+                          context, Routes.homeScreen);
+                    }
                   }
                 }
               },
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
             InkWell(
                 onTap: () => Navigator.pushReplacementNamed(
                     context, Routes.signupScreen),
-                child: const Text("Already have an account?, Sig Up")),
+                child: const Text("Don't have an account?, Sig Up")),
             const SizedBox(
               height: 24,
             ),

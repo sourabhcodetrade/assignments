@@ -23,7 +23,7 @@ class TextInputField extends StatelessWidget {
       decoration: InputDecoration(
         icon: Icon(myIcon),
         hintText: myHintText,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
       validator: (value) {
         if (value!.isEmpty) {
