@@ -6,16 +6,20 @@ import '../../../routes.dart';
 import '../controller/auth_controller.dart';
 import '../controller/password_validator.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final authController = Provider.of<AuthController>(context);
+  State<SignupScreen> createState() => _SignupScreenState();
+}
 
+class _SignupScreenState extends State<SignupScreen> {
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    final authController = Provider.of<AuthController>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

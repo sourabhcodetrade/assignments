@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../auth/controller/auth_controller.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
