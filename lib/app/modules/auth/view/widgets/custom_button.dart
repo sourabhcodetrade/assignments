@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../controller/auth_controller.dart';
 
-class Button extends StatelessWidget {
-  const Button({
+class CustomButton extends StatelessWidget {
+  const CustomButton({
     super.key,
     required this.formKey,
     required this.passwordController,
@@ -27,7 +27,7 @@ class Button extends StatelessWidget {
         backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
       ),
       onPressed: onPressed,
-      child:  Text(
+      child: Text(
         text,
         style: const TextStyle(
           color: Colors.white,

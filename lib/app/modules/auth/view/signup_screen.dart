@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvc/app/modules/auth/view/widgets/custom_button.dart';
 import 'package:mvc/app/modules/auth/view/widgets/form.dart';
 import 'package:provider/provider.dart';
 
@@ -41,11 +42,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 formKey: formKey,
                 emailController: emailController,
                 passwordController: passwordController),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.black87),
-              ),
+            CustomButton(
+              formKey: formKey,
+              passwordController: passwordController,
+              authController: authController,
+              emailController: emailController,
+              text: 'Create Account',
               onPressed: () async {
                 if (formKey.currentState!.validate() &&
                     validatePassword(passwordController.text, context)) {
@@ -55,21 +57,18 @@ class _SignupScreenState extends State<SignupScreen> {
                           password: passwordController.text,
                           context: context);
                   if (user != null) {
-                    if (context.mounted) Navigator.pushReplacementNamed(context, Routes.homeScreen);
+                    if (context.mounted) {
+                      Navigator.pushReplacementNamed(
+                          context, Routes.homeScreen);
+                    }
                   }
                 }
               },
-              child: const Text(
-                'Submit',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
             ),
             const SizedBox(
               height: 16,
             ),
-            InkWell(
+            GestureDetector(
                 onTap: () => Navigator.pushReplacementNamed(context, '/login'),
                 child: const Text("Already have an account?, Log In")),
             const SizedBox(
