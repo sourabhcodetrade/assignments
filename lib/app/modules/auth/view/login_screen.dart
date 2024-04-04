@@ -4,6 +4,7 @@ import 'package:mvc/app/modules/auth/view/widgets/form.dart';
 import 'package:provider/provider.dart';
 
 import '../../../routes.dart';
+import '../controller/password_validator.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -40,16 +41,16 @@ class LoginScreen extends StatelessWidget {
                     MaterialStateProperty.all<Color>(Colors.black87),
               ),
               onPressed: () async {
-                if (formKey.currentState!.validate()) {
-                  print("email = ${emailController.text}");
-                  print("password = ${passwordController.text}");
+                if (formKey.currentState!.validate() && validatePassword(passwordController.text,context)) {
                   final user = await authController.signInWithEmailAndPassword(
                       email: emailController.text,
-                      password: passwordController.text);
+                      password: passwordController.text,
+                    context: context
+                  );
                   if (user != null) {
                     Navigator.pushReplacementNamed(context, Routes.homeScreen);
                   } else {
-                    print("Mismatch");
+
                   }
                 }
               },
@@ -64,7 +65,8 @@ class LoginScreen extends StatelessWidget {
               height: 16,
             ),
             InkWell(
-                onTap: () => Navigator.pushReplacementNamed(context, '/signup'),
+                onTap: () => Navigator.pushReplacementNamed(
+                    context, Routes.signupScreen),
                 child: const Text("Already have an account?, Sig Up")),
             const SizedBox(
               height: 24,

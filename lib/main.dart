@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/wrapper.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,12 @@ void main() async {
     storageBucket: 'mvcapp-540be.appspot.com',
   )
   );
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

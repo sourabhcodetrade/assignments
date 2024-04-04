@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvc/app/routes.dart';
 import 'package:provider/provider.dart';
 import '../../auth/controller/auth_controller.dart';
 
@@ -39,6 +40,8 @@ class HomeScreen extends StatelessWidget {
               ),
               onPressed: () async {
                 await authController.signOut();
+                Navigator.pushReplacementNamed(context,Routes.loginScreen);
+
               },
               child: const Text(
                 'Logout',

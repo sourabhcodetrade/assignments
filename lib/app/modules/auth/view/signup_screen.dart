@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../routes.dart';
 import '../controller/auth_controller.dart';
+import '../controller/password_validator.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -42,18 +43,16 @@ class SignupScreen extends StatelessWidget {
                     MaterialStateProperty.all<Color>(Colors.black87),
               ),
               onPressed: () async {
-                if (formKey.currentState!.validate()) {
-                  print("email = ${emailController.text}");
-                  print("password = ${passwordController.text}");
+                if (formKey.currentState!.validate() &&
+                    validatePassword(passwordController.text, context)) {
                   final user =
                       await authController.createUserWithEmailAndPassword(
                           email: emailController.text,
-                          password: passwordController.text);
+                          password: passwordController.text,
+                          context: context);
                   if (user != null) {
                     Navigator.pushReplacementNamed(context, Routes.homeScreen);
-                  } else {
-                    print("User cannot be created");
-                  }
+                  } else {}
                 }
               },
               child: const Text(
