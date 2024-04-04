@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mvc/app/modules/auth/view/widgets/text_input.dart';
 
-
 class MyForm extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   const MyForm({
     super.key,
-    required GlobalKey<FormState> formKey,
-    required TextEditingController emailController,
-    required TextEditingController passwordController,
-  })  : _formKey = formKey,
-        _emailController = emailController,
-        _passwordController = passwordController;
-
-  final GlobalKey<FormState> _formKey;
-  final TextEditingController _emailController;
-  final TextEditingController _passwordController;
-
+    required this.formKey,
+    required this.emailController,
+    required this.passwordController,
+  });
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,7 +25,7 @@ class MyForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
             child: TextInputField(
-                controller: _emailController,
+                controller: emailController,
                 myIcon: Icons.email,
                 myHintText: "Email",
                 validator: "Please enter your Email"),
@@ -40,7 +35,7 @@ class MyForm extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
             child: TextInputField(
                 isHidden: true,
-                controller: _passwordController,
+                controller: passwordController,
                 myIcon: Icons.lock,
                 myHintText: "Password",
                 validator: "Please enter your Password"),
