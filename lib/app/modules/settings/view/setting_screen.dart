@@ -27,13 +27,13 @@ class _SettingScreenState extends State<SettingScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Dark Mode Switch",
               style: TextStyle(
                 fontSize: 24,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Switch(

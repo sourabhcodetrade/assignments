@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/modules/settings/view/setting_screen.dart';
 import 'package:mvc/app/utils/helper/wrapper.dart';
-import 'package:mvc/app/utils/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'app/modules/auth/view/login_screen.dart';
 import 'app/modules/auth/view/signup_screen.dart';
