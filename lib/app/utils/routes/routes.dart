@@ -6,4 +6,5 @@ class Routes {
   static const loginScreen = "/login";
   static const homeScreen = "/home";
   static const settingsScreen = "/setting";
+  static const listScreen = "/list";
 }

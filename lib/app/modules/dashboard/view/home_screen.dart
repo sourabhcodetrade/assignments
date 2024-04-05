@@ -73,6 +73,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Logout',
               ),
             ),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await authController.signOut();
+                if (context.mounted) {
+                  Navigator.of(context).pushNamed(Routes.listScreen);
+                }
+              },
+              child: const Text(
+                'List Screen',
+              ),
+            ),
           ],
         ),
       ),

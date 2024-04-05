@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
+import 'package:mvc/app/modules/list/view/list_screen.dart';
 import 'package:mvc/app/modules/settings/view/setting_screen.dart';
 import 'package:mvc/app/utils/helper/wrapper.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
               Routes.loginScreen: (context) => const LoginScreen(),
               Routes.homeScreen: (context) => const HomeScreen(),
               Routes.settingsScreen: (context) => const SettingScreen(),
+              Routes.listScreen: (context) => const ListScreen(),
             },
           );
         }
