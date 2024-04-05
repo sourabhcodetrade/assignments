@@ -38,6 +38,8 @@ dependencies:
   firebase_auth: ^4.19.0
   firebase_core: ^2.28.0
   provider:
+  google_fonts: ^6.2.1
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

@@ -3,7 +3,7 @@ import 'package:mvc/app/modules/auth/view/widgets/custom_button.dart';
 import 'package:mvc/app/modules/auth/view/widgets/form.dart';
 import 'package:provider/provider.dart';
 
-import '../../../routes.dart';
+import '../../../utils/routes/routes.dart';
 import '../controller/auth_controller.dart';
 import '../controller/password_validator.dart';
 
@@ -22,10 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [

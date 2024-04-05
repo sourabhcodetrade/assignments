@@ -3,8 +3,7 @@ import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/modules/auth/view/widgets/custom_button.dart';
 import 'package:mvc/app/modules/auth/view/widgets/form.dart';
 import 'package:provider/provider.dart';
-
-import '../../../routes.dart';
+import '../../../utils/routes/routes.dart';
 import '../controller/password_validator.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,9 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -38,9 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             MyForm(
-                formKey: formKey,
-                emailController: emailController,
-                passwordController: passwordController),
+              formKey: formKey,
+              emailController: emailController,
+              passwordController: passwordController,
+            ),
             CustomButton(
               formKey: formKey,
               passwordController: passwordController,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvc/app/routes.dart';
+import 'package:mvc/app/utils/routes/routes.dart';
 import 'package:provider/provider.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../../auth/models/user.dart';
@@ -16,13 +16,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.settingsScreen);
+            },
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               "Welcome",
@@ -41,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (snapshot.hasData && snapshot.data != null) {
                   return Text(
                     'User Email: ${snapshot.data!.email}',
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 16),
                   );
                 } else {
                   return const Text('No user logged in');
@@ -52,10 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 30,
             ),
             ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.black87),
-              ),
               onPressed: () async {
                 await authController.signOut();
                 if (context.mounted) {
@@ -65,9 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: const Text(
                 'Logout',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
               ),
             ),
           ],
