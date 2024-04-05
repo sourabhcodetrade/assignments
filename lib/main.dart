@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // home: const ListViewScreen(),
-      home: const ListViewBuilderScreen(),
+      // home: const ListViewBuilderScreen(),
+      home: const SilverListScreen(),
     );
   }
 }
@@ -118,6 +119,31 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
             color: Colors.white,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SilverListScreen extends StatelessWidget {
+  const SilverListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: 50,
+              (context, index) {
+                return ListTile(
+                  title: Text("Item ${index + 1}"),
+                  tileColor: Colors.orange[100 * (index % 9 + 1)],
+                );
+              },
+            ),
+          ), // Place sliver widgets here
+        ],
       ),
     );
   }
