@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       // home: GridViewScreen(),
       home: GridViewBuilderScreen(),
     );
@@ -37,6 +37,9 @@ class _GridViewScreenState extends State<GridViewScreen> {
         backgroundColor: Colors.blueAccent,
       ),
       body: GridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
         children: [
           getItem(0),
           getItem(0),
@@ -55,15 +58,12 @@ class _GridViewScreenState extends State<GridViewScreen> {
           getItem(0),
           getItem(0),
         ],
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
+
       ),
     );
   }
 
   Widget getItem(int index) {
-    print('$index constructed');
     return Container(
       margin: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
       height: 300,
@@ -102,7 +102,7 @@ class _GridViewBuilderScreenState extends State<GridViewBuilderScreen> {
           backgroundColor: Colors.blueAccent,
         ),
         body: GridView.builder(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           itemCount: 20,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -116,7 +116,6 @@ class _GridViewBuilderScreenState extends State<GridViewBuilderScreen> {
   }
 
   Widget getItem(int index) {
-    print('$index constructed');
     return Container(
       margin: const EdgeInsets.only(bottom: 2, left: 2, right: 2),
       height: 300,
