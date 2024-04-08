@@ -17,14 +17,13 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
-    loadTheme();
+    fetchLight();
   }
 
-  void loadTheme() async {
+  void fetchLight() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       light = prefs.getBool('light') ?? true;
-      print(light);
     });
   }
 
@@ -82,7 +81,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       updateLight(value);
                       light
                           ? themeProvider.setLightMode()
-                          : themeProvider.setDarkmode();
+                          : themeProvider.setDarkMode();
                     });
                   },
                 ),
