@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'app/modules/auth/view/login_screen.dart';
 import 'app/modules/auth/view/signup_screen.dart';
 import 'app/modules/dashboard/view/home_screen.dart';
-import 'app/modules/list/view/list_details_screen.dart';
 import 'app/modules/onboard/view/splash_screen.dart';
 import 'app/modules/settings/controller/theme_provider.dart';
 import 'app/utils/routes/routes.dart';
@@ -64,8 +63,6 @@ class MyApp extends StatelessWidget {
               Routes.homeScreen: (context) => const HomeScreen(),
               Routes.settingsScreen: (context) => const SettingScreen(),
               Routes.listScreen: (context) => const ListScreen(),
-              Routes.listDetailsScreen: (context) => ListDetailsScreen(),
-
             },
           );
         }

@@ -7,5 +7,4 @@ class Routes {
   static const homeScreen = "/home";
   static const settingsScreen = "/setting";
   static const listScreen = "/list";
-  static const listDetailsScreen = "/listDetails";
 }
