@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getThemeMode(BuildContext context) async {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool light = prefs.getBool('light') ?? true;
 
