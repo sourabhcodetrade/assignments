@@ -24,6 +24,7 @@ class _SettingScreenState extends State<SettingScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       light = prefs.getBool('light') ?? true;
+      print(light);
     });
   }
 

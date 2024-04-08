@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mvc/app/utils/routes/routes.dart';
+import 'package:provider/provider.dart';
+
+import '../../settings/controller/theme_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,9 +16,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, Routes.loginScreen);
+      Navigator.pushNamedAndRemoveUntil(context, Routes.wrapper,(route) => false);
     });
   }
+
+  // getThemeMode(BuildContext context){
+  //   final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
             FlutterLogo(
               size: 200,
             ),
-            SizedBox(
-              height: 30,
-            ),
-            CircularProgressIndicator(),
           ],
         ),
       ),

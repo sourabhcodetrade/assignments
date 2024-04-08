@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: themeProvider.currentTheme,
             debugShowCheckedModeBanner: false,
-            initialRoute: Routes.wrapper,
+            initialRoute: Routes.splashScreen,
             routes: {
               Routes.wrapper: (context) => const Wrapper(),
               Routes.splashScreen: (context) => const SplashScreen(),
