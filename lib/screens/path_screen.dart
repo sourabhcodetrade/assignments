@@ -11,106 +11,91 @@ class PathScreen extends StatefulWidget {
 }
 
 class _PathScreenState extends State<PathScreen> {
-  Future<Directory?>? _tempDirectory;
-  Future<Directory?>? _appSupportDirectory;
-  Future<Directory?>? _appLibraryDirectory;
-  Future<Directory?>? _appDocumentsDirectory;
-  Future<Directory?>? _appCacheDirectory;
-  Future<Directory?>? _externalDocumentsDirectory;
-  Future<List<Directory>?>? _externalStorageDirectories;
-  Future<List<Directory>?>? _externalCacheDirectories;
-  Future<Directory?>? _downloadsDirectory;
+  Directory? _tempDirectory;
+  Directory? _appSupportDirectory;
+  Directory? _appLibraryDirectory;
+  Directory? _appDocumentsDirectory;
+  Directory? _appCacheDirectory;
+  Directory? _externalDocumentsDirectory;
+  List<Directory>? _externalStorageDirectories;
+  List<Directory>? _externalCacheDirectories;
+  Directory? _downloadsDirectory;
 
-  Widget _buildDirectory(
-      BuildContext context, AsyncSnapshot<Directory?> snapshot) {
+  Widget _buildDirectory(Directory? directory) {
     Text text = const Text('');
-    if (snapshot.connectionState == ConnectionState.done) {
-      if (snapshot.hasError) {
-        text = Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
-        text = Text('path: ${snapshot.data!.path}');
-      } else {
-        text = const Text('path unavailable');
-      }
+
+    if (directory != null) {
+      text = Text('path: ${directory.path}');
+    } else {
+      text = const Text('path unavailable');
     }
+
     return Padding(padding: const EdgeInsets.all(16.0), child: text);
   }
 
-  Widget _buildDirectories(
-      BuildContext context, AsyncSnapshot<List<Directory>?> snapshot) {
-    Text text = const Text('');
-    if (snapshot.connectionState == ConnectionState.done) {
-      if (snapshot.hasError) {
-        text = Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
-        final String combined =
-            snapshot.data!.map((Directory d) => d.path).join(', ');
-        text = Text('paths: $combined');
-      } else {
-        text = const Text('path unavailable');
-      }
-    }
-    return Padding(padding: const EdgeInsets.all(16.0), child: text);
+  Widget buildDirectories(List<Directory?>? directories) {
+    final String combined =
+        directories?.map((d) => d!.path).join(', ') ?? 'unavailable';
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text('paths: $combined'),
+    );
   }
 
-  void _requestTempDirectory() {
-    setState(() {
-      _tempDirectory = getTemporaryDirectory();
-    });
+  void _requestTempDirectory() async {
+    _tempDirectory = await getTemporaryDirectory();
+
+    setState(() {});
   }
 
-  void _requestAppDocumentsDirectory() {
-    setState(() {
-      _appDocumentsDirectory = getApplicationDocumentsDirectory();
-    });
+  void _requestAppDocumentsDirectory() async {
+    _appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    setState(() {});
   }
 
-  void _requestAppSupportDirectory() {
-    setState(() {
-      _appSupportDirectory = getApplicationSupportDirectory();
-    });
+  void _requestAppSupportDirectory() async {
+    _appSupportDirectory = await getApplicationSupportDirectory();
+    setState(() {});
   }
 
-  void _requestAppLibraryDirectory() {
-    setState(() {
-      _appLibraryDirectory = getLibraryDirectory();
-    });
+  void _requestAppLibraryDirectory() async {
+    _appLibraryDirectory = await getLibraryDirectory();
+    setState(() {});
   }
 
-  void _requestAppCacheDirectory() {
-    setState(() {
-      _appCacheDirectory = getApplicationCacheDirectory();
-    });
+  void _requestAppCacheDirectory() async {
+    _appCacheDirectory = await getApplicationCacheDirectory();
+    setState(() {});
   }
 
-  void _requestExternalStorageDirectory() {
-    setState(() {
-      _externalDocumentsDirectory = getExternalStorageDirectory();
-    });
+  void _requestExternalStorageDirectory() async {
+    _externalDocumentsDirectory = await getExternalStorageDirectory();
+    setState(() {});
   }
 
-  void _requestExternalStorageDirectories(StorageDirectory type) {
-    setState(() {
-      _externalStorageDirectories = getExternalStorageDirectories(type: type);
-    });
+  void _requestExternalStorageDirectories(StorageDirectory type) async {
+    _externalStorageDirectories =
+        await getExternalStorageDirectories(type: type);
+    setState(() {});
   }
 
-  void _requestExternalCacheDirectories() {
-    setState(() {
-      _externalCacheDirectories = getExternalCacheDirectories();
-    });
+  void _requestExternalCacheDirectories() async {
+    _externalCacheDirectories = await getExternalCacheDirectories();
+    setState(() {});
   }
 
-  void _requestDownloadsDirectory() {
-    setState(() {
-      _downloadsDirectory = getDownloadsDirectory();
-    });
+  void _requestDownloadsDirectory() async {
+    _downloadsDirectory = await getDownloadsDirectory();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blueAccent,),
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Center(
         child: ListView(
           children: <Widget>[
@@ -125,10 +110,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _tempDirectory,
-                  builder: _buildDirectory,
-                ),
+                _buildDirectory(_tempDirectory),
               ],
             ),
             Column(
@@ -142,10 +124,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _appDocumentsDirectory,
-                  builder: _buildDirectory,
-                ),
+                _buildDirectory(_appDocumentsDirectory),
               ],
             ),
             Column(
@@ -159,10 +138,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _appSupportDirectory,
-                  builder: _buildDirectory,
-                ),
+                _buildDirectory(_appSupportDirectory),
               ],
             ),
             Column(
@@ -179,10 +155,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _appLibraryDirectory,
-                  builder: _buildDirectory,
-                ),
+                _buildDirectory(_appLibraryDirectory),
               ],
             ),
             Column(
@@ -196,10 +169,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _appCacheDirectory,
-                  builder: _buildDirectory,
-                ),
+                _buildDirectory(_appCacheDirectory),
               ],
             ),
             Column(
@@ -217,10 +187,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _externalDocumentsDirectory,
-                  builder: _buildDirectory,
-                ),
+                _buildDirectory(_externalDocumentsDirectory),
               ],
             ),
             Column(
@@ -242,10 +209,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<List<Directory>?>(
-                  future: _externalStorageDirectories,
-                  builder: _buildDirectories,
-                ),
+                buildDirectories(_externalStorageDirectories),
               ],
             ),
             Column(
@@ -263,10 +227,7 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<List<Directory>?>(
-                  future: _externalCacheDirectories,
-                  builder: _buildDirectories,
-                ),
+                buildDirectories(_externalCacheDirectories),
               ],
             ),
             Column(
@@ -284,10 +245,9 @@ class _PathScreenState extends State<PathScreen> {
                     ),
                   ),
                 ),
-                FutureBuilder<Directory?>(
-                  future: _downloadsDirectory,
-                  builder: _buildDirectory,
-                ),
+                Platform.isAndroid || Platform.isIOS
+                    ? _buildDirectory(_downloadsDirectory)
+                    : const SizedBox(),
               ],
             ),
           ],

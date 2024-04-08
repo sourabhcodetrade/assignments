@@ -1,8 +1,8 @@
-import 'package:cache_geo_path/image_screen.dart';
-import 'package:cache_geo_path/path_screen.dart';
+import 'package:cache_geo_path/screens/image_screen.dart';
+import 'package:cache_geo_path/screens/path_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'location_screen.dart';
+import 'screens/location_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -1,9 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
 class GetLocation {
-  double? latitude;
-  double? longitude;
-
   Future<Position?> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -23,8 +20,6 @@ class GetLocation {
         position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low,
         );
-        longitude = position.longitude;
-        latitude = position.latitude;
         return position;
       } catch (e) {
         // ignore: avoid_print
