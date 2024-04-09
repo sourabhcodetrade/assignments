@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,10 +12,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  bool dialogVisible = false;
+  String text = '';
+  late Map<Permission, PermissionStatus> statuses;
+  int count = 0;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    Future.delayed(Duration.zero, () {
+      getAllPermission(context);
+    });
   }
 
   @override
@@ -29,8 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      checkPermissionStatus();
-    } else {
+      getAllPermission(context);
     }
   }
 
@@ -40,53 +45,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       appBar: AppBar(
         backgroundColor: Colors.teal,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              style: const ButtonStyle(
-                elevation: MaterialStatePropertyAll(4),
-                backgroundColor: MaterialStatePropertyAll(Colors.teal),
-              ),
-              onPressed: () {
-                checkPermission(Permission.camera, context, 'Camera');
-              },
-              child: const Text(
-                'Click Image',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: const ButtonStyle(
-                elevation: MaterialStatePropertyAll(4),
-                backgroundColor: MaterialStatePropertyAll(Colors.teal),
-              ),
-              onPressed: () {
-                checkPermission(Permission.storage, context, 'Storage');
-              },
-              child: const Text(
-                'Storage Permission',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: const ButtonStyle(
-                elevation: MaterialStatePropertyAll(4),
-                backgroundColor: MaterialStatePropertyAll(Colors.teal),
-              ),
-              onPressed: () {
-                checkPermission(Permission.location, context, 'Location');
-              },
-              child: const Text(
-                'Location Permission',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+            Text(
+              'Permission',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
               ),
             ),
           ],
@@ -95,42 +62,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  void getImageFromCamera(BuildContext context) async {
-    XFile? selectedFile =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-  }
-
-  Future<void> checkPermission(
-      Permission permission, BuildContext context, String text) async {
-    final status = await permission.request();
-
-    if (status.isGranted) {
-      switch (permission) {
-        case Permission.camera:
-          if (context.mounted) getImageFromCamera(context);
-          break;
-        case Permission.location:
-          break;
-        case Permission.storage:
-          break;
-      }
-    } else if (status.isDenied) {
-      if (context.mounted) showAlertDialog(context, text);
-    } else if (status.isLimited) {
-      if (context.mounted) getImageFromCamera(context);
-    } else if (status.isPermanentlyDenied) {
-      if (context.mounted) showAlertDialog(context, text);
-    } else {
-      if (context.mounted) showAlertDialog(context, text);
-    }
-  }
-
   void showAlertDialog(context, String text) {
+    dialogVisible = true;
     showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: const Text("Permission Denied"),
-        content: Text("Allow to access $text"),
+        content: Text("Allow $text to access"),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
             child: const Text('Settings'),
@@ -141,15 +79,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Future<void> checkPermissionStatus() async {
-    final cameraPermissionStatus = await Permission.camera.status;
-    final locationPermissionStatus = await Permission.location.status;
-    final storagePermissionStatus = await Permission.storage.status;
+  Future<void> getAllPermission(BuildContext context) async {
+    statuses = await [
+      Permission.camera,
+      Permission.location,
+      Permission.storage,
+    ].request();
 
-    if(cameraPermissionStatus == PermissionStatus.granted && storagePermissionStatus == PermissionStatus.granted && locationPermissionStatus == PermissionStatus.granted ){
-      if(context.mounted) Navigator.pop(context);
-    }
-
-
+    statuses.forEach((permission, status) {
+      if (status.isDenied) {
+        permission.request();
+      } else if (status.isGranted) {
+      } else if (status.isPermanentlyDenied) {
+        setState(() {
+          text = text + permission.toString();
+        });
+        if (!dialogVisible) {
+          showAlertDialog(context, text);
+        }
+        print("isPermanentlyDenied called");
+      }
+    });
   }
 }
