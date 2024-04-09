@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool dialogVisible = false;
   String text = '';
-  late Map<Permission, PermissionStatus> statuses;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
+
+      print("running");
+
     }
   }
 
@@ -78,25 +81,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> getAllPermission(BuildContext context) async {
-    statuses = await [
+
+    Map<Permission, PermissionStatus> statuses = await [
       Permission.camera,
       Permission.location,
       Permission.storage,
     ].request();
 
+
     statuses.forEach((permission, status) {
       if (status.isDenied) {
+        print(statuses);
         permission.request();
       } else if (status.isGranted) {
+        print(statuses);
       } else if (status.isPermanentlyDenied) {
-        setState(() {
-          text = text + permission.toString();
-        });
-        if (!dialogVisible) {
-          showAlertDialog(context, text);
-        }
+        print(statuses);
+
+        // if (!dialogVisible) {
+        //   showAlertDialog(context, text);
+        // }
         print("isPermanentlyDenied called");
       }
     });
   }
+
+
 }
