@@ -15,7 +15,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool dialogVisible = false;
   String text = '';
   late Map<Permission, PermissionStatus> statuses;
-  int count = 0;
   @override
   void initState() {
     super.initState();
