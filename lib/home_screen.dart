@@ -19,9 +19,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    Future.delayed(Duration.zero, () {
-      getAllPermission(context);
-    });
+    askPermission();
   }
 
   @override
@@ -34,9 +32,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-
-      print("running");
-
+      print("resumed");
     }
   }
 
@@ -66,45 +62,44 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void showAlertDialog(context, String text) {
     dialogVisible = true;
     showCupertinoDialog(
+      barrierDismissible: false,
       context: context,
-      builder: (context) => CupertinoAlertDialog(
-        title: const Text("Permission Denied"),
-        content: Text("Allow $text to access"),
-        actions: <CupertinoDialogAction>[
-          CupertinoDialogAction(
-            child: const Text('Settings'),
-            onPressed: () => openAppSettings(),
-          ),
-        ],
+      builder: (context) => PopScope(
+        canPop: true,
+        child: CupertinoAlertDialog(
+          title: const Text("Permission Denied"),
+          content: Text("Allow $text to access"),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              child: const Text('Settings'),
+              onPressed: () => openAppSettings(),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Future<void> getAllPermission(BuildContext context) async {
+  Future<void> askPermission() async {
+    try {
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.camera,
+        Permission.storage,
+        Permission.location
+      ].request();
 
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.camera,
-      Permission.location,
-      Permission.storage,
-    ].request();
-
-
-    statuses.forEach((permission, status) {
-      if (status.isDenied) {
-        print(statuses);
-        permission.request();
-      } else if (status.isGranted) {
-        print(statuses);
-      } else if (status.isPermanentlyDenied) {
-        print(statuses);
-
-        // if (!dialogVisible) {
-        //   showAlertDialog(context, text);
-        // }
-        print("isPermanentlyDenied called");
-      }
-    });
+      statuses.forEach((permission, status) async {
+        if (status.isDenied || status.isPermanentlyDenied) {
+          setState(() {
+            text = '$text,$permission';
+          });
+          // if (!dialogVisible) {
+          showAlertDialog(context, text);
+          // }
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
-
-
 }
