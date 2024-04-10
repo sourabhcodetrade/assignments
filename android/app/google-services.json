@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "288608950818",
+    "project_id": "awesome-notification-8f48f",
+    "storage_bucket": "awesome-notification-8f48f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288608950818:android:e67c0597b207b8b09f487b",
+        "android_client_info": {
+          "package_name": "com.example.local_notification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLPeKwY_udHflTeSWTBhUPPS2Vb0dNbR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
