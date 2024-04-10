@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool dialogVisible = false;
   String text = '';
+  late Map<Permission, PermissionStatus> statuses;
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
+      reCheckPermission(context);
       print("resumed");
     }
   }
@@ -67,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       barrierDismissible: false,
       context: context,
       builder: (context) => PopScope(
-        canPop: false,
+        canPop: true,
         child: CupertinoAlertDialog(
           title: const Text("Permission Denied"),
           content: Text("Allow $text to access"),
@@ -84,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> askPermission(BuildContext context) async {
     try {
-      Map<Permission, PermissionStatus> statuses = await [
+      statuses = await [
         Permission.camera,
         Permission.storage,
         Permission.location
@@ -94,20 +96,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         if (status.isDenied || status.isPermanentlyDenied) {
           text += '$permission, ';
         }
-
-        // if (status.isDenied) {
-        //   await permission.request();
-        // } else if (status.isPermanentlyDenied) {
-        //   text += '$permission, ';
-        // }
-        //
       });
+
       if (!dialogVisible && text.isNotEmpty) {
         if (context.mounted)
           showAlertDialog(context, text.substring(0, text.length - 2));
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  void reCheckPermission(BuildContext context) {
+    bool granted = true;
+    print("statuses = $statuses");
+    statuses.forEach((permission, status) async {
+      if (await permission.isDenied) {
+        granted = false;
+      }
+    });
+    if (dialogVisible && granted) {
+      Navigator.pop(context);
     }
   }
 }
