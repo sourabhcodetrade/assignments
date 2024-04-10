@@ -19,7 +19,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    askPermission();
+    Future.delayed(Duration.zero, () {
+      askPermission(context);
+    });
   }
 
   @override
@@ -65,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       barrierDismissible: false,
       context: context,
       builder: (context) => PopScope(
-        canPop: true,
+        canPop: false,
         child: CupertinoAlertDialog(
           title: const Text("Permission Denied"),
           content: Text("Allow $text to access"),
@@ -80,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Future<void> askPermission() async {
+  Future<void> askPermission(BuildContext context) async {
     try {
       Map<Permission, PermissionStatus> statuses = await [
         Permission.camera,
@@ -90,14 +92,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
       statuses.forEach((permission, status) async {
         if (status.isDenied || status.isPermanentlyDenied) {
-          setState(() {
-            text = '$text,$permission';
-          });
-          // if (!dialogVisible) {
-          showAlertDialog(context, text);
-          // }
+          text += '$permission, ';
         }
+
+        // if (status.isDenied) {
+        //   await permission.request();
+        // } else if (status.isPermanentlyDenied) {
+        //   text += '$permission, ';
+        // }
+        //
       });
+      if (!dialogVisible && text.isNotEmpty) {
+        if (context.mounted)
+          showAlertDialog(context, text.substring(0, text.length - 2));
+      }
     } catch (e) {
       print(e);
     }
