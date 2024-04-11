@@ -4,6 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:local_notification/controller/firebase_controller.dart';
 import 'package:local_notification/view/home_screen.dart';
 
 void main() async {
@@ -18,11 +19,13 @@ void main() async {
                 projectId: 'awesome-notification-8f48f'),
           )
         : await Firebase.initializeApp();
+
+    FirebaseController.initFirebaseMessaging();
     FirebaseMessaging.onBackgroundMessage(
-      (message) => fireBaseBackgroundMessageHandler(message),
+      (message) => FirebaseController.fireBaseMessageHandler(message),
     );
     FirebaseMessaging.onMessage
-        .listen((event) => fireBaseForegroundMessageHandler(event));
+        .listen((event) => FirebaseController.fireBaseForegroundMessageHandler(event));
     await AwesomeNotifications().initialize(
       null,
       [
@@ -64,6 +67,8 @@ void main() async {
   runApp(const MyApp());
 }
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -81,16 +86,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<void> fireBaseBackgroundMessageHandler(RemoteMessage message) async {
-  print('Custom Push Notification from Firebase ${message.data}');
-
-  await AwesomeNotifications().createNotificationFromJsonData(message.data);
-}
-
-Future<void> fireBaseForegroundMessageHandler(RemoteMessage message) async {
-  print('Foreground Push Notification from Firebase ${message.data}');
-
-  await AwesomeNotifications().createNotificationFromJsonData(message.data);
-  print('method completed');
-
-}
