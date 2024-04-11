@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,12 +20,12 @@ void main() async {
           )
         : await Firebase.initializeApp();
 
-    FirebaseController.initFirebaseMessaging();
-    FirebaseMessaging.onMessage
-        .listen((event) => FirebaseController.fireBaseForegroundMessageHandler(event));
-    FirebaseMessaging.onBackgroundMessage(
-      (message) => FirebaseController.fireBaseMessageHandler(message),
-    );
+    // FirebaseController.initFirebaseMessaging();
+    // FirebaseMessaging.onMessage
+    //     .listen((event) => FirebaseController.fireBaseForegroundMessageHandler(event));
+    // FirebaseMessaging.onBackgroundMessage(
+    //   (message) => FirebaseController.fireBaseMessageHandler(message),
+    // );
 
     await AwesomeNotifications().initialize(
       null,
@@ -69,8 +68,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -87,4 +84,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

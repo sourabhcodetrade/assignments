@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^4.19.0
   firebase_core: ^2.28.0
   firebase_messaging:
+  awesome_notifications_fcm: ^0.9.3+1
+  awesome_notifications_core: ^0.9.3
 
 dev_dependencies:
   flutter_test:

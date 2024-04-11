@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 
 class NotificationsController {
   /// Use this method to detect when a new notification or a schedule is created
@@ -32,4 +33,30 @@ class NotificationsController {
       print('Received payload data: ${payload['name']}');
     }
   }
+
+  @pragma("vm:entry-point")
+  static Future<void> mySilentDataHandle(FcmSilentData silentData) async {
+    print('"SilentData": ${silentData.toString()}');
+
+    if (silentData.createdLifeCycle != NotificationLifeCycle.Foreground) {
+      print("bg");
+    } else {
+      print("FOREGROUND");
+    }
+  }
+
+  @pragma("vm:entry-point")
+  static Future<void> myFcmTokenHandle(String token) async {
+    print('FCM Token:"$token"');
+  }
+
+  /// Use this method to detect when a new native token is received
+  @pragma("vm:entry-point")
+  static Future<void> myNativeTokenHandle(String token) async {
+    print('Native Token:"$token"');
+  }
 }
+
+
+
+

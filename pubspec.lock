@@ -25,6 +25,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+1"
+  awesome_notifications_core:
+    dependency: "direct main"
+    description:
+      name: awesome_notifications_core
+      sha256: "38c9f9d2618c0c2abe0cea267dc161aa8c4a0a239ca2263400900b9610f33e6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3"
+  awesome_notifications_fcm:
+    dependency: "direct main"
+    description:
+      name: awesome_notifications_fcm
+      sha256: "1b116e7069f61c10ec25de15cd8f67912db3fc8bd7a5e2e9ed8013cb95633c59"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3+1"
   boolean_selector:
     dependency: transitive
     description:
@@ -121,6 +137,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.15.0"
+  firebase_crashlytics:
+    dependency: transitive
+    description:
+      name: firebase_crashlytics
+      sha256: a4e2c0ef8a595d2fbbaa325ffb15179583db3a01da8ffc2ecd97a46d76ae7546
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.5.1"
+  firebase_crashlytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_crashlytics_platform_interface
+      sha256: "897e8814773b83848ce8967b94d1ad5e780671253d3cd7862bf4a442f29db811"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.29"
   firebase_messaging:
     dependency: "direct main"
     description:

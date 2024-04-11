@@ -32,11 +32,11 @@ class FirebaseController {
   }
 
   static Future initFirebaseMessaging() async {
-    await FirebaseMessaging.instance.requestPermission(
-      sound: true,
-      alert: true,
-      announcement: true,
-    );
+    // await FirebaseMessaging.instance.requestPermission(
+    //   sound: true,
+    //   alert: true,
+    //   announcement: true,
+    // );
 
     final token = await FirebaseMessaging.instance.getToken();
   }
