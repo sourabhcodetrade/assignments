@@ -34,7 +34,7 @@ class NotificationController {
   static Future showSimpleNotification({
     required String? title,
     required String? body,
-    required Map<String,dynamic>? payload,
+    required Map<String, dynamic>? payload,
   }) async {
     const AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails('basic_channel', 'Basic Channel',
@@ -58,7 +58,8 @@ class NotificationController {
             ticker: 'ticker');
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin
-        .show(1, title, body, notificationDetails, payload: payload!['key'].toString());
+    await flutterLocalNotificationsPlugin.show(
+        1, title, body, notificationDetails,
+        payload: payload!['key'].toString());
   }
 }

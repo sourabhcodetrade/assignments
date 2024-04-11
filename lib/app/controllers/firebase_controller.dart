@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:mvc/app/controllers/notification_controller.dart';
 
 Future<void> handleBackgroudMessage(RemoteMessage message) async {
@@ -12,13 +13,23 @@ Future<void> handleBackgroudMessage(RemoteMessage message) async {
       payload: message.data);
 }
 
+Future<void> handleForegroudMessage(RemoteMessage message) async {
+  NotificationController.showSimpleNotification(
+      title: message.notification?.title,
+      body: message.notification!.body,
+      payload: message.data);
+}
+
 class FirebaseController {
   final _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> initNotification() async {
     await _firebaseMessaging.requestPermission();
     final fCmToken = await _firebaseMessaging.getToken();
-    print('Device token= $fCmToken');
+    debugPrint('Device token= $fCmToken');
+    FirebaseMessaging.onMessage.listen(
+      (message) => handleForegroudMessage(message),
+    );
     FirebaseMessaging.onBackgroundMessage(
       (message) => handleBackgroudMessage(message),
     );
