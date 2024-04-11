@@ -21,11 +21,12 @@ void main() async {
         : await Firebase.initializeApp();
 
     FirebaseController.initFirebaseMessaging();
+    FirebaseMessaging.onMessage
+        .listen((event) => FirebaseController.fireBaseForegroundMessageHandler(event));
     FirebaseMessaging.onBackgroundMessage(
       (message) => FirebaseController.fireBaseMessageHandler(message),
     );
-    FirebaseMessaging.onMessage
-        .listen((event) => FirebaseController.fireBaseForegroundMessageHandler(event));
+
     await AwesomeNotifications().initialize(
       null,
       [

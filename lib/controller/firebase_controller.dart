@@ -10,10 +10,14 @@ class FirebaseController {
 
   static Future<void> fireBaseForegroundMessageHandler(
       RemoteMessage message) async {
-    print('Foreground Push Notification from Firebase ${message.data}');
+    try {
+      print('Foreground Push Notification from Firebase ${message.data}');
 
-    await AwesomeNotifications().createNotificationFromJsonData(message.data);
-    print('method completed');
+      await AwesomeNotifications().createNotificationFromJsonData(message.data);
+      print('method completed');
+    }catch(e){
+      print("foreground message error ${e.toString()}");
+    }
   }
 
   static Future initFirebaseMessaging() async {
