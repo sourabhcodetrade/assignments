@@ -40,6 +40,9 @@ dependencies:
   provider:
   google_fonts: ^6.2.1
   shared_preferences:
+  awesome_notifications_fcm: ^0.9.3+1
+  awesome_notifications_core: ^0.9.3
+
 
 dev_dependencies:
   flutter_test:

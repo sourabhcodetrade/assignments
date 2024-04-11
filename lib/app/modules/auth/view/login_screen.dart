@@ -3,8 +3,11 @@ import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/modules/auth/view/widgets/custom_button.dart';
 import 'package:mvc/app/modules/auth/view/widgets/form.dart';
 import 'package:provider/provider.dart';
+import '../../../Controllers/notification_controller.dart';
 import '../../../utils/routes/routes.dart';
 import '../controller/password_validator.dart';
+// ignore: depend_on_referenced_packages
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +17,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationsController.onActionReceivedMethod,
+      onNotificationCreatedMethod:
+      NotificationsController.onNotificationCreatedMethod,
+      onDismissActionReceivedMethod:
+      NotificationsController.onDismissActionReceivedMethod,
+      onNotificationDisplayedMethod:
+      NotificationsController.onNotificationDisplayedMethod,
+    );
+    super.initState();
+  }
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();

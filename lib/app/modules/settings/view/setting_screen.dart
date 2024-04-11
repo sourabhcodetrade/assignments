@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+// ignore: depend_on_referenced_packages
+import 'package:awesome_notifications/awesome_notifications.dart';
+import '../../../Controllers/notification_controller.dart';
 import '../controller/theme_provider.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -16,6 +18,15 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationsController.onActionReceivedMethod,
+      onNotificationCreatedMethod:
+          NotificationsController.onNotificationCreatedMethod,
+      onDismissActionReceivedMethod:
+          NotificationsController.onDismissActionReceivedMethod,
+      onNotificationDisplayedMethod:
+          NotificationsController.onNotificationDisplayedMethod,
+    );
     super.initState();
     fetchLight();
   }

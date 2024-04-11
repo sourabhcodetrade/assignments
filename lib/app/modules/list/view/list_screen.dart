@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../Controllers/notification_controller.dart';
+// ignore: depend_on_referenced_packages
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({super.key});
@@ -8,6 +11,20 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationsController.onActionReceivedMethod,
+      onNotificationCreatedMethod:
+          NotificationsController.onNotificationCreatedMethod,
+      onDismissActionReceivedMethod:
+          NotificationsController.onDismissActionReceivedMethod,
+      onNotificationDisplayedMethod:
+          NotificationsController.onNotificationDisplayedMethod,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

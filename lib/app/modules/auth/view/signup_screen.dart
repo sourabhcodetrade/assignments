@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mvc/app/modules/auth/view/widgets/custom_button.dart';
 import 'package:mvc/app/modules/auth/view/widgets/form.dart';
 import 'package:provider/provider.dart';
-
+// ignore: depend_on_referenced_packages
+import 'package:awesome_notifications/awesome_notifications.dart';
+import '../../../Controllers/notification_controller.dart';
 import '../../../utils/routes/routes.dart';
 import '../controller/auth_controller.dart';
 import '../controller/password_validator.dart';
@@ -15,6 +17,20 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationsController.onActionReceivedMethod,
+      onNotificationCreatedMethod:
+          NotificationsController.onNotificationCreatedMethod,
+      onDismissActionReceivedMethod:
+          NotificationsController.onDismissActionReceivedMethod,
+      onNotificationDisplayedMethod:
+          NotificationsController.onNotificationDisplayedMethod,
+    );
+    super.initState();
+  }
+
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();

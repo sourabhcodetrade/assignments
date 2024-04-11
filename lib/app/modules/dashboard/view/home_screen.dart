@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mvc/app/utils/routes/routes.dart';
 import 'package:provider/provider.dart';
+import '../../../Controllers/notification_controller.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../../auth/models/user.dart';
+// ignore: depend_on_referenced_packages
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +15,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationsController.onActionReceivedMethod,
+      onNotificationCreatedMethod:
+      NotificationsController.onNotificationCreatedMethod,
+      onDismissActionReceivedMethod:
+      NotificationsController.onDismissActionReceivedMethod,
+      onNotificationDisplayedMethod:
+      NotificationsController.onNotificationDisplayedMethod,
+    );
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
