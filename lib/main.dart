@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mvc/app/controllers/firebase_controller.dart';
+import 'package:mvc/app/controllers/notification_controller.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/modules/list/view/list_screen.dart';
 import 'package:mvc/app/modules/settings/view/setting_screen.dart';
@@ -15,15 +17,18 @@ import 'app/modules/settings/controller/theme_provider.dart';
 import 'app/utils/routes/routes.dart';
 
 void main() async {
+  print('working');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
     apiKey: 'AIzaSyAQjEgN2n22yyQVBFinR3AaRxrFeajNuTc',
-    appId: 'com.example.mvc',
-    messagingSenderId: 'sendid',
+    appId: '1:179303071162:android:e237babe971737513cb183',
+    messagingSenderId: '179303071162',
     projectId: 'mvcapp-540be',
     storageBucket: 'mvcapp-540be.appspot.com',
   ));
+  await FirebaseController().initNotification();
+  await NotificationController.init();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
