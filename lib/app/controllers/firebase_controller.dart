@@ -27,11 +27,7 @@ class FirebaseController {
     await _firebaseMessaging.requestPermission();
     final fCmToken = await _firebaseMessaging.getToken();
     debugPrint('Device token= $fCmToken');
-    FirebaseMessaging.onMessage.listen(
-      (message) => handleForegroudMessage(message),
-    );
-    FirebaseMessaging.onBackgroundMessage(
-      (message) => handleBackgroudMessage(message),
-    );
+    FirebaseMessaging.onMessage.listen(handleForegroudMessage);
+    FirebaseMessaging.onBackgroundMessage(handleBackgroudMessage);
   }
 }

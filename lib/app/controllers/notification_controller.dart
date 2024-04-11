@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mvc/app/utils/routes/routes.dart';
+import 'package:mvc/main.dart';
 
 class NotificationController {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -27,10 +31,11 @@ class NotificationController {
 
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (response) => () {
+      onDidReceiveNotificationResponse: (response) {
+        log("dfghjk;");
         print('tapped');
+        print('payload${response.payload}');
       },
-      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
   }
 
@@ -39,6 +44,50 @@ class NotificationController {
       NotificationResponse notificationResponse) {
     print("tapped");
     // handle action
+  }
+
+  static void openPage(String value) {
+    switch (value) {
+      case 'list':
+        if (!checkCurrentScreen(Routes.listScreen)) {
+          Navigator.pushNamed(
+              navigatorKey.currentState!.context, Routes.listScreen);
+        }
+        break;
+      case 'home':
+        if (!checkCurrentScreen(Routes.homeScreen)) {
+          Navigator.pushNamed(
+              navigatorKey.currentState!.context, Routes.listScreen);
+        }
+        break;
+      case 'setting':
+        if (!checkCurrentScreen(Routes.settingsScreen)) {
+          Navigator.pushNamed(
+              navigatorKey.currentState!.context, Routes.listScreen);
+        }
+        break;
+      case 'singnup':
+        if (!checkCurrentScreen(Routes.signupScreen)) {
+          Navigator.pushNamed(
+              navigatorKey.currentState!.context, Routes.listScreen);
+        }
+        break;
+      case 'login':
+        if (!checkCurrentScreen(Routes.loginScreen)) {
+          Navigator.pushNamed(
+              navigatorKey.currentState!.context, Routes.listScreen);
+        }
+        break;
+    }
+  }
+
+  static checkCurrentScreen(String route) {
+    final navigator = navigatorKey.currentState!;
+    if (navigator.canPop()) {
+      final currentRoute = ModalRoute.of(navigator.context)!;
+      return currentRoute.settings.name == route;
+    }
+    return false;
   }
 
   //show a simple Notification

@@ -16,9 +16,7 @@ import 'app/modules/onboard/view/splash_screen.dart';
 import 'app/modules/settings/controller/theme_provider.dart';
 import 'app/utils/routes/routes.dart';
 
-
-  final GlobalKey<NavigatorState> navigatorKey =
-      GlobalKey(); 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 void main() async {
   print('working');
@@ -31,8 +29,8 @@ void main() async {
     projectId: 'mvcapp-540be',
     storageBucket: 'mvcapp-540be.appspot.com',
   ));
-  await FirebaseController().initNotification();
   await NotificationController.init();
+  await FirebaseController().initNotification();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
