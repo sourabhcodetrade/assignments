@@ -18,12 +18,6 @@ class NotificationController {
     const LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(defaultActionName: 'Open notification');
 
-    @pragma('vm:entry-point')
-    void notificationTapBackground(NotificationResponse notificationResponse) {
-      print("tapped");
-      // handle action
-    }
-
     //
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -38,6 +32,13 @@ class NotificationController {
       },
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
+  }
+
+  @pragma('vm:entry-point')
+  static void notificationTapBackground(
+      NotificationResponse notificationResponse) {
+    print("tapped");
+    // handle action
   }
 
   //show a simple Notification
