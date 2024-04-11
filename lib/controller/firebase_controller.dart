@@ -1,9 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseController {
   static Future<void> fireBaseMessageHandler(RemoteMessage message) async {
-    print('Custom Push Notification from Firebase ${message.data}');
 
     await AwesomeNotifications().createNotificationFromJsonData(message.data);
   }
@@ -11,12 +11,23 @@ class FirebaseController {
   static Future<void> fireBaseForegroundMessageHandler(
       RemoteMessage message) async {
     try {
-      print('Foreground Push Notification from Firebase ${message.data}');
 
-      await AwesomeNotifications().createNotificationFromJsonData(message.data);
-      print('method completed');
-    }catch(e){
-      print("foreground message error ${e.toString()}");
+      // showDialog(
+      //   context: context,
+      //   builder: (context) => AlertDialog(
+      //     content: ListTile(
+      //       title: Text(message.data['notification']['title']),
+      //       subtitle: Text(message.data['notification']['body']),
+      //     ),
+      //     actions: <Widget>[
+      //       ElevatedButton(
+      //         child: Text('Ok'),
+      //         onPressed: () => Navigator.of(context).pop(),
+      //       ),
+      //     ],
+      //   ),
+      // );
+    } catch (e) {
     }
   }
 
@@ -28,6 +39,5 @@ class FirebaseController {
     );
 
     final token = await FirebaseMessaging.instance.getToken();
-    print('device = $token');
   }
 }
