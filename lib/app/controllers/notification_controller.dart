@@ -17,6 +17,13 @@ class NotificationController {
     // for linux
     const LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(defaultActionName: 'Open notification');
+
+    @pragma('vm:entry-point')
+    void notificationTapBackground(NotificationResponse notificationResponse) {
+      print("tapped");
+      // handle action
+    }
+
     //
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -26,7 +33,10 @@ class NotificationController {
 
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (details) => () {},
+      onDidReceiveNotificationResponse: (response) => () {
+        print('tapped');
+      },
+      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
   }
 

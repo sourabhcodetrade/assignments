@@ -16,6 +16,10 @@ import 'app/modules/onboard/view/splash_screen.dart';
 import 'app/modules/settings/controller/theme_provider.dart';
 import 'app/utils/routes/routes.dart';
 
+
+  final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey(); 
+
 void main() async {
   print('working');
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +60,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(builder: (context, themeProvider, _) {
       return MaterialApp(
+        navigatorKey: navigatorKey,
         themeMode: ThemeMode.system,
         theme: themeProvider.currentTheme,
         darkTheme: TAppTheme.darkTheme,
