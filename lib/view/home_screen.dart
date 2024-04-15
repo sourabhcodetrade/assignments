@@ -70,6 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
+    nameController.clear();
+    amountController.clear();
+    emailController.clear();
+    mobileController.clear();
     Fluttertoast.showToast(
       msg: 'Payment Successful ${response.paymentId}',
       backgroundColor: Colors.green,
