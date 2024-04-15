@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/modules/auth/view/widgets/custom_button.dart';
 import 'package:mvc/app/modules/auth/view/widgets/form.dart';
@@ -17,6 +18,24 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  @override
+  void initState() {
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.circle
+      ..maskType = EasyLoadingMaskType.black
+      ..userInteractions = false
+      ..dismissOnTap = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    formKey.currentState!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
@@ -48,12 +67,14 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 if (formKey.currentState!.validate() &&
                     validatePassword(passwordController.text, context)) {
+                  EasyLoading.show(status: 'Signing in');
                   final user = await authController.signInWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
                       context: context);
                   if (user != null) {
                     if (context.mounted) {
+                      EasyLoading.dismiss();
                       Navigator.pushReplacementNamed(
                           context, Routes.homeScreen);
                     }

@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mvc/app/controllers/firebase_controller.dart';
 import 'package:mvc/app/controllers/notification_controller.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
@@ -29,6 +33,13 @@ void main() async {
     projectId: 'mvcapp-540be',
     storageBucket: 'mvcapp-540be.appspot.com',
   ));
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   await NotificationController.init();
   await FirebaseController().initNotification();
   SystemChrome.setPreferredOrientations([
@@ -63,6 +74,7 @@ class MyApp extends StatelessWidget {
         theme: themeProvider.currentTheme,
         darkTheme: TAppTheme.darkTheme,
         debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
         initialRoute: Routes.splashScreen,
         routes: {
           Routes.wrapper: (context) => const Wrapper(),
