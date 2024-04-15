@@ -66,6 +66,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    amountController.dispose();
+    currencyController.dispose();
+    nameController.dispose();
+    addressController.dispose();
+    cityController.dispose();
+    pinCodeController.dispose();
+    stateCodeController.dispose();
+    countryCodeController.dispose();
+    formKey1.currentState!.dispose();
+    formKey2.currentState!.dispose();
+    formKey3.currentState!.dispose();
+    formKey4.currentState!.dispose();
+    formKey5.currentState!.dispose();
+    formKey6.currentState!.dispose();
+    formKey7.currentState!.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -218,8 +238,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         formKey7.currentState!.validate()) {
                       await initPaymentSheet();
                       try {
-                       final details = await Stripe.instance.presentPaymentSheet();
-                       print('Details = $details');
+                        final details =
+                            await Stripe.instance.presentPaymentSheet();
+                        print('Details = $details');
                         if (context.mounted) {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
