@@ -33,8 +33,6 @@ class NotificationController {
       initializationSettings,
       onDidReceiveNotificationResponse: (response) {
         log("dfghjk;");
-        print('tapped');
-        print('payload${response.payload}');
       },
     );
   }
@@ -42,7 +40,6 @@ class NotificationController {
   @pragma('vm:entry-point')
   static void notificationTapBackground(
       NotificationResponse notificationResponse) {
-    print("tapped");
     // handle action
   }
 

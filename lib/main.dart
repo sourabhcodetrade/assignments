@@ -23,7 +23,6 @@ import 'app/utils/routes/routes.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 void main() async {
-  print('working');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
