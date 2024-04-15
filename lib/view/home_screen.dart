@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:payment_app/payment.dart';
-import 'package:payment_app/widget_text_field.dart';
+import 'package:payment_app/controller/payment.dart';
+import 'package:payment_app/view/widgets/widget_text_field.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
