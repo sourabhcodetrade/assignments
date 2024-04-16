@@ -31,7 +31,8 @@ void main() async {
     messagingSenderId: '179303071162',
     projectId: 'mvcapp-540be',
     storageBucket: 'mvcapp-540be.appspot.com',
-  ));
+  )
+    );
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
