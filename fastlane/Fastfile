@@ -57,3 +57,24 @@ platform :android do
     )
   end
 end
+
+platform :android do
+  desc "sends message to slack"
+  lane :slack_message do
+    slack(
+       message: "Testing",
+       success: true,
+       channel: "#general",
+       slack_url: "https://hooks.slack.com/services/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",
+       attachment_properties: {
+           fields: [
+               {
+                   title: "message",
+                   value: "Sent from fastLane",
+               }
+           ]
+       }
+   )
+
+  end
+end
