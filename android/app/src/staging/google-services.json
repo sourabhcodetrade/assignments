@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "220627267419",
+    "project_id": "flavor-staging-83656",
+    "storage_bucket": "flavor-staging-83656.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220627267419:android:124adc68454579988cf47e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_flavours.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL0RAwQHMV3lTLtNOqU47q2LDsDJ3Bv88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

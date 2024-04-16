@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000710555828",
+    "project_id": "flavor-production-e2500",
+    "storage_bucket": "flavor-production-e2500.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000710555828:android:8086b9c4ee30b2682d6fe1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_flavours"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeBOCeNxX9rNcyyJRRhc5E2RR7OT17g-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "340096714550",
+    "project_id": "flavor-dev-679fe",
+    "storage_bucket": "flavor-dev-679fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340096714550:android:8c0ca087e70a9c1b085597",
+        "android_client_info": {
+          "package_name": "com.example.flutter_flavours.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn8-Ga3TnzwPX5RZlYVEh0D6H9lXXlzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
