@@ -26,10 +26,16 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.mvc"
+<<<<<<< HEAD
     compileSdk 34
     ndkVersion flutter.ndkVersion
+=======
+    compileSdk flutter.compileSdkVersion
+    ndkVersion "25.1.8937393"
+>>>>>>> 73b7f4bad2cd5f5678db5c8492a6a012f378b99f
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -52,6 +58,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+
     }
 
     buildTypes {
