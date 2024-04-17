@@ -1,4 +1,5 @@
 import 'dart:isolate';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -12,11 +13,13 @@ class ThirdScreen extends StatefulWidget {
 }
 
 class _ThirdScreenState extends State<ThirdScreen> {
-  late String position;
+  late Position position;
 
   void fetchLocation() async {
+    final RootIsolateToken? token = RootIsolateToken.instance;
     ReceivePort receiverPort = ReceivePort();
-    Isolate.spawn(getCurrentLocationIsolate, receiverPort.sendPort);
+    Isolate.spawn(getCurrentLocationIsolate,
+        {"token": token, "sendPort": receiverPort.sendPort});
     position = await receiverPort.first;
     print('Isolate location = $position');
   }

@@ -18,15 +18,15 @@ class _HomeScreenState extends State<HomeScreen> {
   late Position position;
   @override
   void initState() {
-    // fetchData();
+    fetchData();
     super.initState();
   }
 
   void fetchData() async {
-    // ReceivePort receiverPort = ReceivePort();
-    // Isolate.spawn(getData, receiverPort.sendPort);
-    // dataList = await receiverPort.first;
-    dataList = await compute( getData, "message");
+    ReceivePort receiverPort = ReceivePort();
+    Isolate.spawn(getData, receiverPort.sendPort);
+    dataList = await receiverPort.first;
+    // dataList = await compute( getData, "message");
     setState(() {});
     print("Isolate Result = $dataList");
   }
