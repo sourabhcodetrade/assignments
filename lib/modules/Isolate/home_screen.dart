@@ -1,6 +1,7 @@
 
 
 import 'dart:isolate';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'api.dart';
@@ -22,9 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void fetchData() async {
-    ReceivePort receiverPort = ReceivePort();
-    Isolate.spawn(getData, receiverPort.sendPort);
-    dataList = await receiverPort.first;
+    // ReceivePort receiverPort = ReceivePort();
+    // Isolate.spawn(getData, receiverPort.sendPort);
+    // dataList = await receiverPort.first;
+    dataList = await compute( getData, "message");
     setState(() {});
     print("Isolate Result = $dataList");
   }

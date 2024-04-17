@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 @pragma('vm:entry-point')
 void getData(SendPort sendPort) async {
-  List dataList = [];
+  var dataList;
   try {
     const url = 'https://superhero-search.p.rapidapi.com/api/heroes';
     const headers = {
