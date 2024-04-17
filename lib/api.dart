@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 @pragma('vm:entry-point')
-void getData(SendPort sendPort) async {
-  var dataList;
+// void getData(SendPort sendPort) async {
+FutureOr<List> getData(String f) async {
+  print(f);
+  List dataList = [];
   try {
     const url = 'https://superhero-search.p.rapidapi.com/api/heroes';
     const headers = {
@@ -20,19 +23,21 @@ void getData(SendPort sendPort) async {
       ),
     );
 
-    //
     if (response.statusCode == 200) {
       dataList = jsonDecode(response.data);
-      sendPort.send(dataList);
+      return dataList;
+      // sendPort.send(dataList);
     } else {
       debugPrint("Something went wrong");
-      sendPort.send("Something went wrong");
+      // sendPort.send("Something went wrong");
     }
   } on DioException catch (e) {
     debugPrint('Error fetching data: $e');
-    sendPort.send('Error fetching data: $e');
+    // sendPort.send('Error fetching data: $e');
   } catch (e) {
     debugPrint('Error fetching data: $e');
-    sendPort.send('Error fetching data: $e');
+    // sendPort.send('Error fetching data: $e');
   }
+  return dataList;
+
 }
