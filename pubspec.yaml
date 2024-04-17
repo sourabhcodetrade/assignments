@@ -13,6 +13,8 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   dio: ^5.4.3+1
+  geolocator: ^11.0.0
+  compute: ^1.0.2
 
 dev_dependencies:
   flutter_test:

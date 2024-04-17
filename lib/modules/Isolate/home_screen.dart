@@ -1,6 +1,9 @@
+
+
 import 'dart:isolate';
 import 'package:flutter/material.dart';
-import 'package:flutter_isoolate/api.dart';
+import 'package:geolocator/geolocator.dart';
+import 'api.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,9 +14,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List dataList = [];
+  late Position position;
   @override
   void initState() {
-    fetchData();
+    // fetchData();
     super.initState();
   }
 
@@ -24,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
     print("Isolate Result = $dataList");
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             vertical: 8, horizontal: 16),
                         child: ListTile(
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1),
+                            side: const BorderSide(width: 1),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           leading: CircleAvatar(
