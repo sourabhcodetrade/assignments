@@ -1,7 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:supabase_example/modules/dashboard/model/data_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../utils/constants.dart';
 
 class DatabaseController {
@@ -34,13 +33,16 @@ class DatabaseController {
         'apiKey': Constants.apiKey,
       }),
     );
+
     data =
         await client.query(QueryOptions(document: gql(Constants.readMessages)));
+    String msg = data.exception?.graphqlErrors.first.toString() ??
+        'Something went wrong';
 
     if (data.hasException) {
-      return DataModel(401, data,false);
+      return DataModel(401, data, false, msg);
     }
 
-    return DataModel(200, data,true);
+    return DataModel(200, data, true, '');
   }
 }

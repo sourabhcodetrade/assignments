@@ -3,7 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class DataModel {
   int statusCode;
   QueryResult data;
-  bool success = false;
+  bool successState = false;
+  String exceptionMessage;
 
-  DataModel(this.statusCode, this.data,this.success);
+  DataModel(this.statusCode, this.data, this.successState,this.exceptionMessage);
 }

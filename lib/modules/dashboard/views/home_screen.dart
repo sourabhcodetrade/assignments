@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ? const CircularProgressIndicator(
                   color: Colors.blueAccent,
                 )
-              : obj.dataModel.success
+              : obj.dataModel.successState
                   ? Expanded(
                       child: ListView.builder(
                         itemCount: obj.messages.length,
@@ -92,8 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.red,
                           alignment: Alignment.center,
                           child: Text(
-                            obj.dataModel.data.exception!.graphqlErrors
-                                .toString(),
+                            obj.dataModel.exceptionMessage.toString(),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
