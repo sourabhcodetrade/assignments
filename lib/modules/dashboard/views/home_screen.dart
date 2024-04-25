@@ -69,17 +69,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ? const CircularProgressIndicator(
                   color: Colors.blueAccent,
                 )
-              : obj.dataModel.statusCode == 401
-                  ? Center(
+              : obj.dataModel.success
+                  ? Expanded(
+                      child: ListView.builder(
+                        itemCount: obj.messages.length,
+                        itemBuilder: (context, index) {
+                          final message = obj.messages[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ChatMessageTile(message: message),
+                          );
+                        },
+                      ),
+                    )
+                  : Center(
                       child: Card(
                         elevation: 5,
-                        margin: const EdgeInsets.only(left: 8, right: 8, top: 100),
+                        margin:
+                            const EdgeInsets.only(left: 8, right: 8, top: 100),
                         child: Container(
                           width: double.infinity,
                           color: Colors.red,
                           alignment: Alignment.center,
                           child: Text(
-                            obj.dataModel.data.exception!.graphqlErrors.toString(),
+                            obj.dataModel.data.exception!.graphqlErrors
+                                .toString(),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -87,21 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                    )
-                  : obj.messages.isEmpty
-                      ? const Center(child: CircularProgressIndicator())
-                      : Expanded(
-                          child: ListView.builder(
-                            itemCount: obj.messages.length,
-                            itemBuilder: (context, index) {
-                              final message = obj.messages[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ChatMessageTile(message: message),
-                              );
-                            },
-                          ),
-                        ),
+                    ),
         ],
       ),
     );

@@ -38,9 +38,9 @@ class DatabaseController {
         await client.query(QueryOptions(document: gql(Constants.readMessages)));
 
     if (data.hasException) {
-      return DataModel(401, data);
+      return DataModel(401, data,false);
     }
 
-    return DataModel(200, data);
+    return DataModel(200, data,true);
   }
 }
