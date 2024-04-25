@@ -11,7 +11,7 @@ class DataHandlerProvider with ChangeNotifier {
   void callApi() async {
     dataModel = await DatabaseController().fetchData();
     if (dataModel.statusCode == 200) {
-      messages = (dataModel.data.data?['messagesCollection']?['edges'] ?? [])
+      messages = (dataModel.data?.data?['messagesCollection']?['edges'] ?? [])
           .map<Map<String, dynamic>>(
               (edge) => edge['node'] as Map<String, dynamic>)
           .toList();

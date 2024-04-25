@@ -19,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
     setState(() {
       userID = storedUser ?? '';
     });
-    print("userID = $userID");
   }
 
   @override

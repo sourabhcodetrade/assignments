@@ -3,19 +3,17 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_example/modules/onboard/views/splash_screen.dart';
 import 'package:supabase_example/provider/provider.dart';
-import 'package:supabase_example/utils/constants.dart';
 import 'package:supabase_example/utils/routes.dart';
 import 'modules/auth/view/login_screen.dart';
 import 'modules/auth/view/signup_screen.dart';
 import 'modules/dashboard/views/home_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: Constants.supabaseUrl,
-    anonKey: Constants.apiKey,
-  );
+  // await Supabase.initialize(
+  //   url: Constants.supabaseUrl,
+  //   anonKey: Constants.apiKey,
+  // );
   runApp(const MyApp());
 }
 

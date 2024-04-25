@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_example/modules/auth/controller/auth_controller.dart';
+import 'package:supabase_example/modules/dashboard/controller/database_controller.dart';
 import '../../../provider/provider.dart';
 import '../../../utils/routes.dart';
 import '../widgets/chat_tile.dart';
@@ -49,6 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.red,
+          onPressed: () async{
+        await DatabaseController().deleteData();
+      }),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
