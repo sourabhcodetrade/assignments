@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../modules/dashboard/controller/database_controller.dart';
 import '../modules/dashboard/model/data_model.dart';
+import '../utils/queries.dart';
 
 class DataHandlerProvider with ChangeNotifier {
   late DataModel dataModel;
@@ -9,7 +10,7 @@ class DataHandlerProvider with ChangeNotifier {
   List<Map<String, dynamic>> messages = [];
 
   void callApi() async {
-    dataModel = await DatabaseController().fetchData();
+    dataModel = await DatabaseController().queryHandler(Queries().readMessages);
     if (dataModel.statusCode == 200) {
       messages = (dataModel.data?.data?['messagesCollection']?['edges'] ?? [])
           .map<Map<String, dynamic>>(

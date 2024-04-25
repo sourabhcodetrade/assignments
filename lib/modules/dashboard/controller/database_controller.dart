@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:supabase_example/modules/dashboard/model/data_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../utils/constants.dart';
 
 class DatabaseController {
@@ -11,26 +12,12 @@ class DatabaseController {
     }),
   );
 
-  Future<void> sendData() async {
-    await client.query(
-        QueryOptions(document: gql(Constants.insertQuery('new message', '9'))));
-  }
 
-  Future<void> updateData() async {
-    await client.query(QueryOptions(
-        document: gql(Constants.updateQuery('updated message', '13'))));
-  }
-
-  Future<void> deleteData() async {
-    await client
-        .query(QueryOptions(document: gql(Constants.deleteQuery('12'))));
-  }
-
-  Future<DataModel> fetchData() async {
+  Future<DataModel> queryHandler(String query) async {
     try {
       late QueryResult data;
       data = await client
-          .query(QueryOptions(document: gql(Constants.readMessages)));
+          .query(QueryOptions(document: gql(query)));
       String exceptionMessage = 'Something went wrong';
       if (data.hasException) {
         switch (data.exception?.linkException.runtimeType) {
@@ -60,24 +47,26 @@ class DatabaseController {
     }
   }
 
-// final supabase = Supabase.instance.client;
-//
-// List<Map<String, dynamic>> listenToChatMessages() {
-//   List<Map<String, dynamic>> messages = [];
-//
-//   supabase.from('messages').stream(primaryKey: ['id']).listen(
-//     (List<Map<String, dynamic>> data) {
-//       messages.addAll(data);
-//       // print(data);
-//     },
-//   );
-//
-//   return messages;
-// }
+  //supabase methods
 
-// Future<void> insertData() async {
-//   await supabase.from('messages').insert(
-//     {'message': 'The Shire', 'author_id': 554},
-//   );
-// }
+final supabase = Supabase.instance.client;
+
+List<Map<String, dynamic>> listenToChatMessages() {
+  List<Map<String, dynamic>> messages = [];
+
+  supabase.from('messages').stream(primaryKey: ['id']).listen(
+    (List<Map<String, dynamic>> data) {
+      messages.addAll(data);
+      // print(data);
+    },
+  );
+
+  return messages;
+}
+
+Future<void> insertData() async {
+  await supabase.from('messages').insert(
+    {'message': 'The Shire', 'author_id': 554},
+  );
+}
 }
