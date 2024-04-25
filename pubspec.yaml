@@ -40,6 +40,7 @@ dependencies:
   flutter_easyloading:
   dio:
   graphql_flutter:
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

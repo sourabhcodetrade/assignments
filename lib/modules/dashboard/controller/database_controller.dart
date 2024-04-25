@@ -1,4 +1,8 @@
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:supabase_example/modules/dashboard/model/data_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../utils/constants.dart';
 
 class DatabaseController {
   final supabase = Supabase.instance.client;
@@ -22,18 +26,21 @@ class DatabaseController {
     );
   }
 
-  static const String readMessages = '''
- query MessagesCollection {
-    messagesCollection {
-        edges {
-            node {
-                id
-                created_at
-                message
-                author_id
-            }
-        }
+  Future<DataModel> fetchData() async {
+    late QueryResult data;
+    GraphQLClient client = GraphQLClient(
+      cache: GraphQLCache(),
+      link: HttpLink(Constants.graphqlUrl, defaultHeaders: {
+        'apiKey': Constants.apiKey,
+      }),
+    );
+    data =
+        await client.query(QueryOptions(document: gql(Constants.readMessages)));
+
+    if (data.hasException) {
+      return DataModel(401, data);
     }
-}
-''';
+
+    return DataModel(200, data);
+  }
 }
