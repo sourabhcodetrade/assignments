@@ -58,11 +58,11 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _handleSubmitted(String text) {
-    _sendMessage(text);
-    messageController.clear();
+    if (messageController.text.trim().isNotEmpty) {
+      _sendMessage(text);
+      messageController.clear();
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                   children: <Widget>[
                     message,
-                     Text(
+                    Text(
                       '${messages[index]['hours']} : ${messages[index]['min']}',
                       style: const TextStyle(
                         fontSize: 12.0,
