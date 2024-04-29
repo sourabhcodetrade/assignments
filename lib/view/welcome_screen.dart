@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 
 import '../utils/routes.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
+  final TextEditingController ipController = TextEditingController();
 
   WelcomeScreen({super.key});
   @override
@@ -37,6 +39,14 @@ class WelcomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
                TextField(
+                controller: ipController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter IP Address',
+                  border: OutlineInputBorder(
+                  ),
+                ),
+              ),
+              TextField(
                 controller: controller,
                 decoration: const InputDecoration(
                   labelText: 'Username',
@@ -50,13 +60,15 @@ class WelcomeScreen extends StatelessWidget {
                   backgroundColor: MaterialStatePropertyAll(Colors.blueAccent),
                   foregroundColor: MaterialStatePropertyAll(Colors.white),
                 ),
-                onPressed: () {
+                onPressed: () async{
+                 String ip = await selfIP() ?? '';
                   if(controller.text.trim().isNotEmpty){
                     Navigator.pushReplacementNamed(
                         context,
                         Routes.chatScreen,
                         arguments: {
-                          'username' : controller.text
+                          'username' : controller.text.trim().toString(),
+                          'ip': ipController.text.trim().toString(),
                         }
                     );
                   }
@@ -70,4 +82,10 @@ class WelcomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+
+Future<String?> selfIP() async {
+  String? wifiIP = await NetworkInfo().getWifiIP();
+  return wifiIP;
 }

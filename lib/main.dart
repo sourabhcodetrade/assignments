@@ -4,6 +4,7 @@ import 'package:socketexample/view/splash_screen.dart';
 import 'package:socketexample/view/welcome_screen.dart';
 import 'view/chat_screen.dart';
 
+
 void main() {
   runApp(const MyApp());
 }

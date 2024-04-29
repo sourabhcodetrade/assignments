@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 const port = 3000;
-const messages = [];
+var messages = [];
 var d = new Date();
 
 io.on('connection', (socket) => {
@@ -30,9 +30,6 @@ io.on('connection', (socket) => {
 });
 
 
-// app.get('/', (req, res) => {
-//     res.send('Hello World!')
-// });
 
 
 server.listen(port, () => {

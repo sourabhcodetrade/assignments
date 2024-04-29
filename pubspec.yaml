@@ -12,7 +12,8 @@ dependencies:
 
 
   cupertino_icons: ^1.0.6
-  socket_io_client: ^2.0.3+1
+  socket_io_client: ^1.0.0
+  network_info_plus: ^1.0.2
 
 dev_dependencies:
   flutter_test:

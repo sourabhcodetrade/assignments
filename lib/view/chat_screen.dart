@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+// ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../utils/routes.dart';
 
@@ -13,18 +16,30 @@ class _ChatScreenState extends State<ChatScreen> {
   late IO.Socket socket;
   final TextEditingController messageController = TextEditingController();
   late final String username;
+  late final String ip;
 
   List<dynamic> messages = [];
 
   _connectSocket() {
     socket.onConnect((_) {
       print('connection established');
+      socket.emit('connected', {'username': username});
     });
-    socket.onDisconnect((data) => print('disconnect'));
+    socket.onDisconnect((data) {
+      print('disconnect');
+    });
     socket.onConnectError((data) => print('Connection Error $data'));
     socket.on('message', (data) {
       messages = data;
       setState(() {});
+    });
+    socket.on('newUser', (username) {
+      print('new user = $username');
+
+
+    });
+    socket.on('userLeft', (username) {
+      print('userLeft = $username');
     });
   }
 
@@ -41,8 +56,10 @@ class _ChatScreenState extends State<ChatScreen> {
       final routeArgs =
           ModalRoute.of(context)?.settings.arguments as Map<String, String>;
       username = routeArgs['username']!;
+      ip = routeArgs['ip']!;
+      print('ip= $ip');
       socket = IO.io(
-          'http://192.168.2.34:3000',
+          'http://$ip:3000',
           IO.OptionBuilder().setTransports(['websocket']).setQuery(
               {'username': username}).build());
       _connectSocket();
@@ -74,6 +91,8 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              socket.emit('disconnected', {'username': username});
+              socket.disconnect();
               Navigator.pushReplacementNamed(context, Routes.welcomeScreen);
             },
             icon: const Icon(Icons.logout),
