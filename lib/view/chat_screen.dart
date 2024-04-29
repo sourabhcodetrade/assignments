@@ -61,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
       socket = IO.io(
           'http://$ip:3000',
           IO.OptionBuilder().setTransports(['websocket']).setQuery(
-              {'username': username}).build());
+              {'username': username}).enableForceNew().build());
       _connectSocket();
     });
 
@@ -91,9 +91,16 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              socket.emit('disconnected', {'username': username});
-              socket.disconnect();
-              Navigator.pushReplacementNamed(context, Routes.welcomeScreen);
+              try{
+                socket.emit('disconnected', {'username': username});
+                socket.disconnect();
+                socket.close();
+                socket.destroy();
+                Navigator.pushReplacementNamed(context, Routes.welcomeScreen);
+              }catch(e){
+                print(e.toString());
+              }
+
             },
             icon: const Icon(Icons.logout),
           ),

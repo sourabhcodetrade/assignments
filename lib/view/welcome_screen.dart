@@ -46,6 +46,9 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 16,
+              ),
               TextField(
                 controller: controller,
                 decoration: const InputDecoration(
