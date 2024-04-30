@@ -1,21 +1,10 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_map_example/map_screen.dart';
-import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
-import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
-import 'helper/map_initializer.dart';
-
+import 'package:google_map_example/views/splash_screen.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  // final GoogleMapsFlutterPlatform mapsImplementation =
-  //     GoogleMapsFlutterPlatform.instance;
-  // if (mapsImplementation is GoogleMapsFlutterAndroid) {
-  //   mapsImplementation.useAndroidViewSurface = true;
-  //  await MapInitializer().initializeMapRenderer();
-  // }
   runApp(const MyApp());
 }
 
@@ -34,9 +23,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MapScreen(),
+      home:  const SplashScreen(),
     );
   }
+
+
 }
 
 
