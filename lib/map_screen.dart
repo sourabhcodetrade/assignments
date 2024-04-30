@@ -12,66 +12,66 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng latLng = const LatLng(26.9124, 75.7873);
-  String address =  'Jaipur';
+  static int id = 0;
+  Set<Marker> markers = {};
+  List<String> address = [];
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: latLng,
-          zoom: 12
-        ),
+        initialCameraPosition: CameraPosition(target: latLng, zoom: 12),
         buildingsEnabled: true,
-        markers: {
-          Marker(
-            markerId: const MarkerId('1'),
-            position: latLng,
-            draggable: true,
-            onDragEnd: (value) => setMarker(value),
-            infoWindow: InfoWindow(title: address),
-          ),
-
-        },
-
+        markers: markers,
         onTap: (value) {
-          setMarker(value);
+          // setMarker(value);
+          addMarker(value);
         },
       ),
     );
   }
 
-
-  setMarker(LatLng value) async{
+  // setMarker(LatLng value) async{
+  //   latLng = value;
+  //   List<Placemark> result = await placemarkFromCoordinates(value.latitude, value.longitude);
+  //
+  //   if(result.isNotEmpty){
+  //     address = '${result[0].name}, ${result[0].locality},${result[0].subAdministrativeArea}';
+  //   }
+  //
+  //   setState(() {
+  //     Fluttertoast.showToast(msg: '📍 $address');
+  //   });
+  //
+  // }
+  addMarker(LatLng value) async {
     latLng = value;
-    List<Placemark> result = await placemarkFromCoordinates(value.latitude, value.longitude);
+    List<Placemark> result =
+    await placemarkFromCoordinates(value.latitude, value.longitude);
 
-    if(result.isNotEmpty){
-      address = '${result[0].name}, ${result[0].locality},${result[0].administrativeArea}';
+    if (result.isNotEmpty) {
+      address.add('${result[0].name}, ${result[0].locality},${result[0].subAdministrativeArea}') ;
     }
 
-    setState(() {
-      Fluttertoast.showToast(msg: '📍 $address');
-    });
+    markers.add(
+      Marker(
+        markerId: MarkerId('$id'),
+        position: LatLng(value.latitude, value.longitude),
+        draggable: false,
+        infoWindow: InfoWindow(title: address[id]),
 
-  }
-  addMarker(LatLng value) async{
-    latLng = value;
-    List<Placemark> result = await placemarkFromCoordinates(value.latitude, value.longitude);
 
-    if(result.isNotEmpty){
-      address = '${result[0].name}, ${result[0].locality},${result[0].subAdministrativeArea}';
-    }
-
+      ),
+    );
 
     setState(() {
-      Fluttertoast.showToast(msg: '📍 $address');
+      Fluttertoast.showToast(msg: '📍 ${address[id]}');
+      id++;
     });
-
   }
-
-
 }
-
-
