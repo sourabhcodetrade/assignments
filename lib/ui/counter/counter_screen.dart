@@ -1,5 +1,4 @@
 import 'package:example_bloc/bloc/counter/counter_bloc.dart';
-import 'package:example_bloc/bloc/counter/counter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +29,7 @@ class _CounterScreenState extends State<CounterScreen> {
             BlocBuilder<CounterBloc, CounterState>(builder: (context, state) {
               return Text(
                 '${state.counter}',
-                style: TextStyle(fontSize: 60, color: Colors.black),
+                style: const TextStyle(fontSize: 60, color: Colors.black),
               );
             },),
             const SizedBox(
