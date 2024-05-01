@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:getx_example/counter_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final CounterController controller = Get.put(CounterController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,48 +20,18 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Card(
-            child: ListTile(
-              title: Text('Open Bottom Sheet'),
-              onTap: (){
-
-                Get.bottomSheet(
-                  backgroundColor: Colors.white,
-                  Column(
-                    children: [
-                      Card(
-                        child: ListTile(
-                          onTap: (){
-                            Get.changeTheme(ThemeData.dark());
-                          },
-                          leading: Icon(Icons.dark_mode),
-                          title: Text('Dark Theme'),
-                        ),
-                      ),
-                      Card(
-                        child: ListTile(
-                          onTap: (){
-                            Get.changeTheme(ThemeData.light());
-                          },
-                          leading: Icon(Icons.light_mode),
-                          title: Text('Light Theme'),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                );
-
-              },
-
-            ),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Obx(() => Text(controller.counter.value.toString())),
+          ],
+        ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        controller.incrementCounter();
+      }),
     );
   }
 }
