@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 part 'counter_event.dart';
 part 'counter_state.dart';
@@ -11,10 +12,17 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   }
 
   void _increment(IncrementCounter event, Emitter<CounterState> emit) {
-    emit(state.copyWith(counter: state.counter + 1));
+    if (kDebugMode) {
+      print(state.counter);
+    }
+    emit(CounterState(counter: state.counter+1));
   }
 
   void _decrement(DecrementCounter event, Emitter<CounterState> emit) {
-    emit(state.copyWith(counter: state.counter - 1));
+    if (kDebugMode) {
+      print(state.counter);
+    }
+    emit(CounterState(counter: state.counter-1));
+
   }
 }

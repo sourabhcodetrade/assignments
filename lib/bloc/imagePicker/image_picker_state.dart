@@ -1,6 +1,13 @@
 part of 'image_picker_bloc.dart';
 
-@immutable
-sealed class ImagePickerState {}
 
-final class ImagePickerInitial extends ImagePickerState {}
+class ImagePickerState extends Equatable {
+ final String path;
+
+ const ImagePickerState({this.path = ''});
+
+
+ @override
+ List<Object> get props => [path];
+}
+
