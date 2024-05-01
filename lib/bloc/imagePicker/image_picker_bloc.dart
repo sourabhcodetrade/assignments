@@ -1,6 +1,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'image_picker_event.dart';
@@ -19,10 +21,20 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
     final pickedFile = await picker.pickImage(
       source: ImageSource.camera,
     );
-    XFile? xfilePick = pickedFile;
-        if (xfilePick != null) {
-          galleryFile =pickedFile!.path;
+        if (pickedFile != null) {
+          emit(ImagePickerState(path: pickedFile.path));
         } else {
+          Fluttertoast.showToast(
+            msg: "No image selected",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black87,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          emit(ImagePickerState(path: state.path));
+
         }
 
 
@@ -30,18 +42,26 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   }
   void _galleryPickImage(GalleryPickEvent event, Emitter<ImagePickerState> emit)async{
     final picker = ImagePicker();
-    String galleryFile = '';
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
-    XFile? xfilePick = pickedFile;
-    if (xfilePick != null) {
-      galleryFile =pickedFile!.path;
+    if (pickedFile != null) {
+      emit(ImagePickerState(path: pickedFile.path));
     } else {
+      Fluttertoast.showToast(
+        msg: "No image selected",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      emit(ImagePickerState(path: state.path));
+
     }
 
 
-    emit(ImagePickerState(path: galleryFile));
   }
 
   void _removeImage(RemoveImageEvent event, Emitter<ImagePickerState> emit){
