@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -15,32 +14,32 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
     on<RemoveImageEvent>(_removeImage);
   }
 
-  void _cameraCaptureImage(CameraCaptureEvent event, Emitter<ImagePickerState> emit) async{
+  void _cameraCaptureImage(
+      CameraCaptureEvent event, Emitter<ImagePickerState> emit) async {
     final picker = ImagePicker();
     String galleryFile = '';
     final pickedFile = await picker.pickImage(
       source: ImageSource.camera,
     );
-        if (pickedFile != null) {
-          emit(ImagePickerState(path: pickedFile.path));
-        } else {
-          Fluttertoast.showToast(
-            msg: "No image selected",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.SNACKBAR,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black87,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-          emit(ImagePickerState(path: state.path));
+    if (pickedFile != null) {
+      emit(ImagePickerState(path: pickedFile.path));
+    } else {
+      Fluttertoast.showToast(
+        msg: "No image selected",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      emit(ImagePickerState(path: state.path));
+    }
 
-        }
-
-
-    emit(ImagePickerState(path: galleryFile));
   }
-  void _galleryPickImage(GalleryPickEvent event, Emitter<ImagePickerState> emit)async{
+
+  void _galleryPickImage(
+      GalleryPickEvent event, Emitter<ImagePickerState> emit) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
@@ -58,15 +57,10 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
         fontSize: 16.0,
       );
       emit(ImagePickerState(path: state.path));
-
     }
-
-
   }
 
-  void _removeImage(RemoveImageEvent event, Emitter<ImagePickerState> emit){
+  void _removeImage(RemoveImageEvent event, Emitter<ImagePickerState> emit) {
     emit(const ImagePickerState(path: ''));
-
   }
-
 }
