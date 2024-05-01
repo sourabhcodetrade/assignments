@@ -1,6 +1,5 @@
 import 'package:example_bloc/bloc/counter/counter_bloc.dart';
 import 'package:example_bloc/bloc/imagePicker/image_picker_bloc.dart';
-import 'package:example_bloc/ui/counter/counter_screen.dart';
 import 'package:example_bloc/ui/imagePicker/image_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

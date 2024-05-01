@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -16,7 +15,7 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
 
   void _cameraCaptureImage(CameraCaptureEvent event, Emitter<ImagePickerState> emit) async{
     final picker = ImagePicker();
-    var galleryFile;
+    String galleryFile = '';
     final pickedFile = await picker.pickImage(
       source: ImageSource.camera,
     );
@@ -24,7 +23,6 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
         if (xfilePick != null) {
           galleryFile =pickedFile!.path;
         } else {
-          print("error");
         }
 
 
@@ -32,7 +30,7 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   }
   void _galleryPickImage(GalleryPickEvent event, Emitter<ImagePickerState> emit)async{
     final picker = ImagePicker();
-    var galleryFile;
+    String galleryFile = '';
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
@@ -40,7 +38,6 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
     if (xfilePick != null) {
       galleryFile =pickedFile!.path;
     } else {
-      print("error");
     }
 
 
