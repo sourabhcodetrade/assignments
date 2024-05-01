@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_map_example/views/map_screen.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../controller/location.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +13,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    fetchCurrentLocation();
+    Future.delayed(const Duration(seconds: 1),(){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MapScreen(),));
+    });
     super.initState();
   }
 
@@ -43,10 +43,5 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
 
-  Future<void> fetchCurrentLocation() async {
-    LatLng target = (await GetLocation().getCurrentLocation())! ;
-    if(mounted) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MapScreen(target: target),));
-    }
-  }
+
 }
