@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_example/constants.dart';
 import 'package:google_map_example/models/location_data.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import '../controller/location.dart';
 
 class MapScreen extends StatefulWidget {
@@ -21,7 +22,8 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? currentLocation;
   bool isVisible = true;
   List<Position> positions = [];
-
+  List<LocationData> locationDataList = [];
+  Set<Marker> markers = {};
   List<LatLng> listLatLng = [
     const LatLng(26.9239, 75.8267),
     const LatLng(26.9253, 75.8237),
@@ -29,13 +31,18 @@ class _MapScreenState extends State<MapScreen> {
     const LatLng(26.9247, 75.8246),
     const LatLng(26.9117, 75.8486)
   ];
-  List<LocationData> locationDataList = [];
 
-  Set<Marker> markers = {};
+  Map<PolylineId, Polyline> polylines = {};
 
   @override
   void initState() {
-    fetchCurrentLocation();
+    fetchCurrentLocation().then(
+      (_) => {
+        getPolylinePoints().then((coordinates) => {
+              generatePolyLineFromPoints(coordinates),
+            }),
+      },
+    );
     createMarkers(listLatLng);
     super.initState();
   }
@@ -83,12 +90,14 @@ class _MapScreenState extends State<MapScreen> {
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                   },
+                  polylines: Set<Polyline>.of(polylines.values),
                   onTap: (value) async {
                     List<Placemark> result = await placemarkFromCoordinates(
                         value.latitude, value.longitude);
+                    print(result);
                     Fluttertoast.showToast(
                         msg:
-                            '📍 ${result[0].name}, ${result[0].locality},${result[0].subAdministrativeArea}');
+                            '📍 ${result[0].name}, ${result[0].street},${result[0].thoroughfare},${result[0].subLocality},${result[0].locality}');
                   },
                 ),
                 DraggableScrollableSheet(
@@ -154,7 +163,7 @@ class _MapScreenState extends State<MapScreen> {
         List<Placemark> result = await placemarkFromCoordinates(
             locationsList[i].latitude, locationsList[i].longitude);
         String address =
-            '${result[0].name}, ${result[0].locality},${result[0].subAdministrativeArea}';
+            '${result[0].name}, ${result[0].street}, ${result[0].thoroughfare}, ${result[0].subLocality}, ${result[0].locality}';
         locationDataList
             .add(LocationData(address: address, latlng: locationsList[i]));
 
@@ -189,10 +198,10 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {});
   }
 
-  void fetchCurrentLocation() async {
+  fetchCurrentLocation() async {
     currentLocation = (await GetLocation().getCurrentLocation())!;
     setState(() {});
-    onChangedLocation();
+    // onChangedLocation();
   }
 
   void onChangedLocation() {
@@ -215,5 +224,40 @@ class _MapScreenState extends State<MapScreen> {
       target: pos,
       zoom: 16,
     )));
+  }
+
+  Future<List<LatLng>> getPolylinePoints() async {
+    List<LatLng> polylineCoordinates = [];
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      Constants.googleAPiKey,
+      PointLatLng(listLatLng[0].latitude, listLatLng[0].longitude),
+      PointLatLng(listLatLng[4].latitude, listLatLng[4].longitude),
+      travelMode: TravelMode.driving,
+    );
+    if (result.points.isNotEmpty) {
+      for (PointLatLng pointLatLng in result.points) {
+        polylineCoordinates
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      }
+    } else {
+      print(result.errorMessage);
+    }
+
+    return polylineCoordinates;
+  }
+
+  void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async {
+    PolylineId id = const PolylineId('poly');
+    Polyline polyline = Polyline(
+        polylineId: id,
+        color: Colors.green,
+        points: polylineCoordinates,
+        width: 8);
+
+    setState(() {
+      polylines[id] = polyline;
+    });
   }
 }
