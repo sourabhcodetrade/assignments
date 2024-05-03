@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:supabase_chat_application/app/modules/models/message_model.dart';
 import 'package:supabase_chat_application/app/modules/models/profile_model.dart';
 import 'package:supabase_chat_application/app/utils/constants/constants.dart';
@@ -18,6 +19,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   late final Stream<List<MessageModel>> _messagesStream;
   final Map<String, ProfileModel> _profileCache = {};
+
 
   @override
   void initState() {
@@ -87,9 +89,53 @@ class _ChatScreenState extends State<ChatScreen> {
                           itemBuilder: (context, index) {
                             final message = messages[index];
                             _loadProfileCache(message.profileId);
-                            return ChatBubble(
-                              message: message,
-                              profile: _profileCache[message.profileId],
+                            return Slidable(
+                              startActionPane: ActionPane(
+                                  motion: const StretchMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) async {
+                                        await ChatController()
+                                            .deleteMessage(message.id);
+                                        setState(() {});
+                                      },
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                      backgroundColor: Colors.red,
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) {},
+                                      icon: Icons.edit,
+                                      label: 'edit',
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  ]),
+                              endActionPane: ActionPane(
+                                  motion: const StretchMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) async {
+                                        await ChatController()
+                                            .deleteMessage(message.id);
+                                        setState(() {});
+                                      },
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                      backgroundColor: Colors.red,
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        FocusScope.of(context).requestFocus(FocusNode());
+                                      },
+                                      icon: Icons.edit,
+                                      label: 'edit',
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  ]),
+                              child: ChatBubble(
+                                message: message,
+                                profile: _profileCache[message.profileId],
+                              ),
                             );
                           },
                         ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:supabase_chat_application/app/modules/choice/choice_screen.dart';
 import 'package:supabase_chat_application/app/modules/info/users_info_screen.dart';
 import 'package:supabase_chat_application/app/utils/themes/themes.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       theme: AppThemes().appTheme,
       debugShowCheckedModeBanner: false,
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         Routes.signupScreen: (context) => const SignUpScreen(),
         Routes.loginScreen: (context) => const LoginScreen(),
         Routes.chatScreen: (context) => const ChatScreen(),
-        Routes.choiceScreen: (context) => ChoiceScreen(),
+        Routes.choiceScreen: (context) => const ChoiceScreen(),
         Routes.infoScreen: (context) => const UserInfoScreen(),
       },
     );

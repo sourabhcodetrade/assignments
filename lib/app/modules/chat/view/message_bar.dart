@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../utils/constants/constants.dart';
 
 class MessageBar extends StatefulWidget {
@@ -63,7 +62,7 @@ class _MessageBarState extends State<MessageBar> {
   }
 
   void _submitMessage() async {
-    final text = _textController.text;
+    final text = _textController.text.trim();
     final myUserId = Constants.supabase.auth.currentUser!.id;
     if (text.isEmpty) {
       return;

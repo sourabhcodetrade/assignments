@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:supabase_chat_application/app/modules/auth/controller/login_controller.dart';
 import 'package:supabase_chat_application/app/utils/constants/constants.dart';
-import 'package:get/get.dart';
+
 
 import '../../../utils/routes/routes.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,8 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final LoginController _loginController = Get.put(LoginController());
-
   @override
   void initState() {
     EasyLoading.instance
@@ -28,13 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //  _loginController.dispose();
-  //  print("_loginController disposed");
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,40 +32,28 @@ class _LoginScreenState extends State<LoginScreen> {
       body: ListView(
         padding: Constants.formPadding,
         children: [
-          Obx(
-            () {
-              return TextFormField(
-                controller: LoginController.emailController.value,
-                decoration: const InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-              );
-            },
+          TextFormField(
+            controller: LoginController.emailController,
+            decoration: const InputDecoration(labelText: 'Email'),
+            keyboardType: TextInputType.emailAddress,
           ),
           Constants.formSpacer,
-          Obx(
-            () {
-              return TextFormField(
-                controller: LoginController.passwordController.value,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              );
-            },
+          TextFormField(
+            controller: LoginController.passwordController,
+            decoration: const InputDecoration(labelText: 'Password'),
+            obscureText: true,
           ),
           Constants.formSpacer,
-          Obx(
-            () {
-              return _loginController.isLoading.value
-                  ? Constants.preloader
-                  : ElevatedButton(
-                      onPressed: _loginController.isLoading.value
-                          ? null
-                          : () async {
-                              await LoginController().signIn(context);
-                            },
-                      child: const Text('Login'),
-                    );
-            },
-          ),
+          LoginController().isLoading
+              ? Constants.preloader
+              : ElevatedButton(
+                  onPressed: LoginController().isLoading
+                      ? null
+                      : () async {
+                          await LoginController().signIn(context);
+                        },
+                  child: const Text('Login'),
+                ),
           Constants.formSpacer,
           TextButton(
             onPressed: () {

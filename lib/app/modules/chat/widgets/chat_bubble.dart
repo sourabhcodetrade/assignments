@@ -18,12 +18,11 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> chatContents = [
-      if (!message.isMine)
-        CircleAvatar(
-          child: profile == null
-              ? Constants.preloader
-              : Text(profile!.username.substring(0, 2)),
-        ),
+      CircleAvatar(
+        child: profile == null
+            ? Constants.preloader
+            : Text(profile!.username.substring(0, 2)),
+      ),
       const SizedBox(width: 12),
       Flexible(
         child: Container(

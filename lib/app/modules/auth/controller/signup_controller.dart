@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../utils/constants/constants.dart';
 import '../../../utils/routes/routes.dart';
 
-class SignUpController extends GetxController {
-  final RxBool isLoading = false.obs;
+class SignUpController {
+   bool isLoading = false;
 
-  static final Rx<GlobalKey<FormState>> formKey = GlobalKey<FormState>().obs;
-  static final Rx<TextEditingController> emailController =
-      TextEditingController().obs;
-  static final Rx<TextEditingController> passwordController =
-      TextEditingController().obs;
-  static final Rx<TextEditingController> usernameController =
-      TextEditingController().obs;
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static final TextEditingController emailController =
+      TextEditingController();
+  static final TextEditingController passwordController =
+      TextEditingController();
+  static final TextEditingController usernameController =
+      TextEditingController();
 
   Future<void> signUp(BuildContext context) async {
-    isLoading.value = true;
-    final isValid = formKey.value.currentState?.validate();
+    isLoading = true;
+    final isValid = formKey.currentState?.validate();
     if (!isValid!) {
       return;
     }
@@ -38,6 +38,6 @@ class SignUpController extends GetxController {
       EasyLoading.showError('unexpectedErrorMessage',
           duration: const Duration(seconds: 2));
     }
-    isLoading.value = false;
+    isLoading = false;
   }
 }
