@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_chat_application/app/utils/routes/routes.dart';
 
+import '../chat/controller/chat_controller.dart';
+
 class ChoiceScreen extends StatelessWidget {
   const ChoiceScreen({super.key});
 
@@ -10,6 +12,16 @@ class ChoiceScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Chat'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ChatController().signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, Routes.loginScreen, (route) => false);
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
