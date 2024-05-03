@@ -5,4 +5,7 @@ class Routes {
   static const signupScreen = "/signup";
   static const loginScreen = "/login";
   static const chatScreen = "/chat";
+  static const choiceScreen = "/choice";
+  static const infoScreen = "/info";
+
 }

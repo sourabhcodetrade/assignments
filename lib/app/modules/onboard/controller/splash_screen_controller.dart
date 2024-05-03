@@ -15,7 +15,7 @@ class SplashController extends GetxController {
             .pushNamedAndRemoveUntil(Routes.loginScreen, (route) => false);
       } else {
         Navigator.of(context)
-            .pushNamedAndRemoveUntil(Routes.chatScreen, (route) => false);
+            .pushNamedAndRemoveUntil(Routes.choiceScreen, (route) => false);
       }
     });
   }

@@ -19,7 +19,7 @@ class LoginController extends GetxController {
           password: passwordController.value.text,
           email: emailController.value.text);
       if (context.mounted) {
-        Navigator.of(context).pushReplacementNamed(Routes.chatScreen);
+        Navigator.of(context).pushReplacementNamed(Routes.choiceScreen);
       }
     } on AuthException catch (error) {
       EasyLoading.showError(error.message,
