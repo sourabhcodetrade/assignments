@@ -13,7 +13,8 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
     emit(const LoginScreenLoading());
     print(event.email);
     print(event.password);
-    await Future.delayed(const Duration(seconds: 3)).whenComplete(() =>   emit(const LoginScreenSuccess("Login Successful")));
+    await Future.delayed(const Duration(seconds: 3));
+    emit(const LoginScreenSuccess("Login Successful"));
     // emit(const LoginScreenFailure("Login Failed"));
   }
 

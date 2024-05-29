@@ -1,4 +1,5 @@
 import 'package:firebase_auth_project/app/module/auth/changePassword/view/change_password_screen.dart';
+import 'package:firebase_auth_project/app/module/auth/forgotPassword/forgot_password_screen_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/forgotPassword/view/forgot_password_screen.dart';
 import 'package:firebase_auth_project/app/module/auth/login/login_screen_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/signup/singup_screen_bloc.dart';
@@ -37,7 +38,9 @@ final class NavigationManager {
       Routes.signupScreen => BlocProvider(
           create: (BuildContext context) => SignUpScreenBloc(),
           child: const SignupScreen()),
-      Routes.forgotPasswordScreen => const ForgotPasswordScreen(),
+      Routes.forgotPasswordScreen => BlocProvider(
+          create: (BuildContext context) => ForgotPasswordScreenBloc(),
+          child: const ForgotPasswordScreen()),
       Routes.changePassword => const ChangePasswordScreen(),
       // Routes.homeScreen => MultiBlocProvider(
       //   providers: [

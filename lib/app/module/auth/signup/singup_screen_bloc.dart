@@ -14,11 +14,7 @@ class SignUpScreenBloc extends Bloc<SingUpScreenEvent, SignUpScreenState> {
     emit(const SingUpScreenLoading());
     print(event.email);
     print(event.password);
-    await Future.delayed(const Duration(seconds: 3)).whenComplete(
-      () => emit(
-        const SignUpScreenSuccess("Account Created Successfully"),
-      ),
-    );
-    // emit(const LoginScreenFailure("Login Failed"));
+    await Future.delayed(const Duration(seconds: 3));
+    emit(const SignUpScreenSuccess("Account Created Successfully"));
   }
 }

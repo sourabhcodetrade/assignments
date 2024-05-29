@@ -2,7 +2,6 @@ part of 'forgot_password_screen_bloc.dart';
 
 @immutable
 sealed class ForgotPasswordScreenState extends Equatable {
-
   const ForgotPasswordScreenState();
 
   @override
@@ -11,21 +10,32 @@ sealed class ForgotPasswordScreenState extends Equatable {
 
 final class ForgotPasswordScreenInitial extends ForgotPasswordScreenState {}
 
-final class ForgotPasswordScreenLoading extends ForgotPasswordScreenState{
-
+final class ForgotPasswordScreenLoading extends ForgotPasswordScreenState {
+  const ForgotPasswordScreenLoading();
 }
 
-final class ForgotPasswordScreenOtpSentSuccess extends ForgotPasswordScreenState{
-
-}
-final class ForgotPasswordScreenOtpSentFailure extends ForgotPasswordScreenState{
-
-}
-
-final class ForgotPasswordScreenVerifiedOtpSuccess extends ForgotPasswordScreenState{
-
-}
-final class ForgotPasswordScreenVerifiedOtpFailure extends ForgotPasswordScreenState{
-
+final class ForgotPasswordScreenOtpSentSuccess
+    extends ForgotPasswordScreenState {
+  final String msg;
+  const ForgotPasswordScreenOtpSentSuccess(this.msg);
 }
 
+final class ForgotPasswordScreenOtpSentFailure
+    extends ForgotPasswordScreenState {
+  final String msg;
+
+  const ForgotPasswordScreenOtpSentFailure(this.msg);
+}
+
+final class ForgotPasswordScreenVerifiedOtpSuccess
+    extends ForgotPasswordScreenState {
+  final String msg;
+
+  const ForgotPasswordScreenVerifiedOtpSuccess(this.msg);
+}
+
+final class ForgotPasswordScreenVerifiedOtpFailure
+    extends ForgotPasswordScreenState {
+  final String msg;
+  const ForgotPasswordScreenVerifiedOtpFailure(this.msg);
+}
