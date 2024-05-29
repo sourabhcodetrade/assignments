@@ -19,6 +19,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController repeatNewPasswordController =
       TextEditingController();
+  bool isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +58,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   OutLineTextFormField(
                     controller: repeatNewPasswordController,
                     prefixIcon: const Icon(Icons.lock_outline),
-                    obscureText: true,
+                    obscureText: !isPasswordVisible,
                     showSuffixIcon: true,
                     suffixIconButton: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.visibility)),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        }, icon:  isPasswordVisible ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
                     labelText: "Repeat New password",
                   ),
                 ],

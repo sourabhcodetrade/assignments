@@ -37,7 +37,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 BlocBuilder<ForgotPasswordScreenBloc,
                     ForgotPasswordScreenState>(
                   builder: (context, state) {
-                    if(state is !ForgotPasswordScreenVerifiedOtpSuccess){
+                    if (state is! ForgotPasswordScreenVerifiedOtpSuccess) {
                       return const Text(
                         "Enter E-mail to verify",
                         style: TextStyle(
@@ -45,11 +45,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           color: ColorConstants.primaryColor,
                         ),
                       );
-                    }
-                    else{
+                    } else {
                       return const SizedBox();
                     }
-
                   },
                 ),
                 const Gap(50),
@@ -89,7 +87,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text("Verification SuccessFull"),
-                            Text("Redirecting you to change password in 2 seconds"),
+                            Text(
+                                "Redirecting you to change password in 2 seconds"),
                           ],
                         ),
                       );
