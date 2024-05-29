@@ -9,7 +9,9 @@ sealed class LoginScreenState extends Equatable {
 
 final class LoginScreenInitial extends LoginScreenState {}
 
-final class LoginScreenLoading extends LoginScreenState {}
+final class LoginScreenLoading extends LoginScreenState {
+  const LoginScreenLoading();
+}
 
 final class LoginScreenFailure extends LoginScreenState {
   final String msg;

@@ -7,7 +7,6 @@ sealed class LoginScreenEvent extends Equatable {
 
   const LoginScreenEvent();
 }
-
 final class Login extends LoginScreenEvent {
   final String email;
   final String password;
@@ -17,3 +16,6 @@ final class Login extends LoginScreenEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+
+

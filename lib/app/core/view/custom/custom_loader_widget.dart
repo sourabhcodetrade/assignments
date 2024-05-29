@@ -4,14 +4,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingWidget extends StatelessWidget {
   final double height, width;
-  const LoadingWidget({super.key, required this.height, required this.width});
+  final Color color;
+  const LoadingWidget({super.key, required this.height, required this.width,  this.color = ColorConstants.primaryColor});
 
   @override
   SizedBox build(BuildContext context) => SizedBox(
         height: height,
         width: width,
-        child: const SpinKitChasingDots(
-          color: ColorConstants.primaryColor,
+        child:  SpinKitChasingDots(
+          color: color,
           size: 50.0,
         ),
       );

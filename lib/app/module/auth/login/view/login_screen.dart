@@ -44,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController = TextEditingController();
   }
 
-
   void _dispose() {
     loginFormKey.currentState?.dispose();
     emailController.dispose();
@@ -55,103 +54,110 @@ class _LoginScreenState extends State<LoginScreen> {
   Scaffold build(BuildContext context) => Scaffold(
         appBar: const CustomAppBar("Login"),
         body: BlocListener<LoginScreenBloc, LoginScreenState>(
-          listener: (context, state) => _loginBlocListener,
-          child: BlocBuilder<LoginScreenBloc, LoginScreenState>(
-            builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
+          listener: _loginBlocListener,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                const Gap(50),
+                const Text(
+                  "Log In",
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: ColorConstants.primaryColor,
+                  ),
+                ),
+                const Gap(50),
+                Form(
+                  key: loginFormKey,
+                  child: Column(
+                    children: [
+                      OutLineTextFormField(
+                        controller: emailController,
+                        prefixIcon: const Icon(Icons.email),
+                        labelText: "E-Mail",
+                      ),
+                      const Gap(10),
+                      OutLineTextFormField(
+                        controller: passwordController,
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        obscureText: !isPasswordVisible,
+                        showSuffixIcon: true,
+                        labelText: "Password",
+                        textInputType: TextInputType.visiblePassword,
+                        suffixIconButton: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: isPasswordVisible
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off)),
+                      ),
+                    ],
+                  ),
+                ),
+                const Gap(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Gap(50),
-                    const Text(
-                      "Log In",
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: ColorConstants.primaryColor,
+                    GestureDetector(
+                      onTap: () {
+                        context.pushReplacementNamed(Routes.signupScreen);
+                      },
+                      child: const Text(
+                        "Create an account",
+                        style: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                    const Gap(50),
-                    Form(
-                      key: loginFormKey,
-                      child: Column(
-                        children: [
-                          OutLineTextFormField(
-                            controller: emailController,
-                            prefixIcon: const Icon(Icons.email),
-                            labelText: "E-Mail",
-                          ),
-                          const Gap(10),
-                          OutLineTextFormField(
-                            controller: passwordController,
-                            prefixIcon: const Icon(Icons.lock_outline),
-                            obscureText: !isPasswordVisible,
-                            showSuffixIcon: true,
-                            labelText: "Password",
-                            suffixIconButton: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isPasswordVisible = !isPasswordVisible;
-                                  });
-                                },
-                                icon: isPasswordVisible
-                                    ? const Icon(Icons.visibility)
-                                    : const Icon(Icons.visibility_off)),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        context.pushNamed(Routes.forgotPasswordScreen);
+                      },
+                      child: const Text(
+                        "Forgot Password?",
+                        style: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                    const Gap(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            context.pushReplacementNamed(Routes.signupScreen);
-                          },
-                          child: const Text(
-                            "Create an account",
-                            style: TextStyle(
-                              color: ColorConstants.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.pushNamed(Routes.forgotPasswordScreen);
-                          },
-                          child: const Text(
-                            "Forgot Password?",
-                            style: TextStyle(
-                              color: ColorConstants.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Gap(30),
-                    CustomButton(
-                        onPressed: () {
-                          String email = emailController.text;
-                          String password = passwordController.text;
-                          context
-                              .read<LoginScreenBloc>()
-                              .add(Login(email, password));
-                        },
-                        width: double.infinity,
-                        height: 50,
-                        child: const Text("Log In")),
                   ],
                 ),
-              );
-            },
+                const Gap(30),
+                BlocBuilder<LoginScreenBloc, LoginScreenState>(
+                  builder: (context, state) {
+                    if (state is LoginScreenLoading) {
+                      return const RoundedRectangleBorderLoadingWidget(
+                        height: 100,
+                        width: 100,
+                      );
+                    } else {
+                      return CustomButton(
+                          onPressed: () {
+                            String email = emailController.text;
+                            String password = passwordController.text;
+                            context
+                                .read<LoginScreenBloc>()
+                                .add(Login(email, password));
+                          },
+                          width: double.infinity,
+                          height: 50,
+                          child: const Text("Log In"));
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       );
 
   void _loginBlocListener(_, LoginScreenState state) {
-    if (state is LoginScreenLoading) RoundedRectangleBorderLoadingWidget;
     if (state is LoginScreenSuccess) {
       print("State received");
       ToastUtils.success(state.msg);
@@ -160,5 +166,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ToastUtils.failure(state.msg);
     }
   }
-
 }
