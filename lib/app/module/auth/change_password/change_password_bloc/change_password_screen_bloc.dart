@@ -12,9 +12,6 @@ class ChangePasswordScreenBloc
   void _changePassword(
       ChangePassword event, Emitter<ChangePasswordScreenState> emit) async {
     emit(const ChangePasswordScreenLoading());
-    print(event.currentPassword);
-    print(event.newPassword);
-    print(event.confirmPassword);
     await Future.delayed(const Duration(seconds: 3));
     if (event.currentPassword =="Aa12345@" && event.newPassword == event.confirmPassword) {
       emit(const ChangePasswordScreenSuccess("Password Changed Successfully"));

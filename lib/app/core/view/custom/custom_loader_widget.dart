@@ -11,9 +11,9 @@ class LoadingWidget extends StatelessWidget {
   SizedBox build(BuildContext context) => SizedBox(
         height: height,
         width: width,
-        child:  SpinKitChasingDots(
+        child:  SpinKitFadingCircle(
           color: color,
-          size: 50.0,
+          size: 80.0,
         ),
       );
 }

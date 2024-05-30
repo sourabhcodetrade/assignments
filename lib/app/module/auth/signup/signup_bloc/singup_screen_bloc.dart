@@ -11,9 +11,7 @@ class SignUpScreenBloc extends Bloc<SingUpScreenEvent, SignUpScreenState> {
   }
 
   void _signUp(SignUp event, Emitter<SignUpScreenState> emit) async {
-    emit(const SingUpScreenLoading());
-    print(event.email);
-    print(event.password);
+    emit(SingUpScreenLoading());
     await Future.delayed(const Duration(seconds: 3));
     emit(const SignUpScreenSuccess("Account Created Successfully"));
   }

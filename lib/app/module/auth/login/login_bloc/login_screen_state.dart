@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -11,9 +10,7 @@ sealed class LoginScreenState extends Equatable {
 
 final class LoginScreenInitial extends LoginScreenState {}
 
-final class LoginScreenLoading extends LoginScreenState {
-  const LoginScreenLoading();
-}
+final class LoginScreenLoading extends LoginScreenState {}
 
 final class LoginScreenFailure extends LoginScreenState {
   final String msg;

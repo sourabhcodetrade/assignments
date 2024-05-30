@@ -2,7 +2,6 @@ part of 'singup_screen_bloc.dart';
 
 @immutable
 sealed class SignUpScreenState extends Equatable {
-
   const SignUpScreenState();
 
   @override
@@ -11,11 +10,7 @@ sealed class SignUpScreenState extends Equatable {
 
 final class SingUpScreenInitial extends SignUpScreenState {}
 
-
-final class SingUpScreenLoading extends SignUpScreenState {
-
-  const SingUpScreenLoading();
-}
+final class SingUpScreenLoading extends SignUpScreenState {}
 
 final class SingUpScreenFailure extends SignUpScreenState {
   final String msg;

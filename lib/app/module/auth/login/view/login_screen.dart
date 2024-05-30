@@ -2,6 +2,7 @@ import 'package:firebase_auth_project/app/core/contants/color_constants.dart';
 import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:firebase_auth_project/app/core/view/buttons/custom_button.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_app_bar_widget.dart';
+import 'package:firebase_auth_project/app/core/view/custom/custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,11 +11,10 @@ import 'package:gap/gap.dart';
 import '../../../../core/contants/routes.dart';
 import '../../../../core/services/enum_input_type.dart';
 import '../../../../core/services/toast_utils.dart';
-import '../../../../core/view/custom/custom_loader_widget.dart';
 import '../../../../core/view/input/outlined_text_form_field_widget.dart';
-import '../loginBloc/login_screen_bloc.dart';
-import '../loginBloc/login_screen_event.dart';
-import '../loginBloc/login_screen_state.dart';
+import '../login_bloc/login_screen_bloc.dart';
+import '../login_bloc/login_screen_event.dart';
+import '../login_bloc/login_screen_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,16 +24,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final GlobalKey<FormState> loginFormKey;
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
-  late bool isPasswordVisible;
-
-  @override
-  void initState() {
-    initialiseControllers();
-    super.initState();
-  }
+  final GlobalKey<FormState> _loginFormKey = GlobalKey();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -41,17 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void initialiseControllers() {
-    isPasswordVisible = false;
-    loginFormKey = GlobalKey();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
-  }
-
   void _dispose() {
-    loginFormKey.currentState?.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _loginFormKey.currentState?.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
   }
 
   @override
@@ -82,20 +69,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const Gap(50),
                   Form(
-                    key: loginFormKey,
+                    key: _loginFormKey,
                     child: Column(
                       children: [
                         OutLineTextFormField(
-                          controller: emailController,
+                          controller: _emailController,
                           prefixIcon: const Icon(Icons.email),
                           labelText: "E-Mail",
                           inputTypeEnum: InputTypeEnum.email,
                         ),
                         const Gap(10),
                         OutLineTextFormField(
-                          controller: passwordController,
+                          controller: _passwordController,
                           prefixIcon: const Icon(Icons.lock_outline),
-                          obscureText: !isPasswordVisible,
+                          obscureText: !_isPasswordVisible,
                           showSuffixIcon: true,
                           labelText: "Password",
                           textInputType: TextInputType.visiblePassword,
@@ -103,10 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           suffixIconButton: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  isPasswordVisible = !isPasswordVisible;
+                                  _isPasswordVisible = !_isPasswordVisible;
                                 });
                               },
-                              icon: isPasswordVisible
+                              icon: _isPasswordVisible
                                   ? const Icon(Icons.visibility)
                                   : const Icon(Icons.visibility_off)),
                         ),
@@ -144,31 +131,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const Gap(30),
-                  BlocBuilder<LoginScreenBloc, LoginScreenState>(
-                    builder: (context, state) {
-                      if (state is LoginScreenLoading) {
-                        return const RoundedRectangleBorderLoadingWidget(
-                          height: 100,
-                          width: 100,
-                        );
-                      } else {
-                        return CustomButton(
-                            onPressed: () {
-                              String email = emailController.text;
-                              String password = passwordController.text;
-                              if (loginFormKey.currentState!.validate()) {
-                                context
-                                    .read<LoginScreenBloc>()
-                                    .add(Login(email, password));
-                              } else {
-                                print("validation error");
-                              }
-                            },
-                            width: double.infinity,
-                            height: 50,
-                            child: const Text("Log In"));
+                  CustomButton(
+                    onPressed: () {
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+                      if (_loginFormKey.currentState!.validate()) {
+                        context
+                            .read<LoginScreenBloc>()
+                            .add(Login(email, password));
                       }
                     },
+                    width: double.infinity,
+                    height: 50,
+                    child: const Text("Log In"),
                   ),
                 ],
               ),
@@ -177,13 +152,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
 
-  void _loginBlocListener(_, LoginScreenState state) {
+  void _loginBlocListener(BuildContext context, LoginScreenState state) {
+    if (state is LoginScreenLoading) {
+      CustomDialog.showLoader(context);
+    }
     if (state is LoginScreenSuccess) {
-      print("State received");
+      CustomDialog.hideDialog(context);
       ToastUtils.success(state.msg);
+
     }
     if (state is LoginScreenFailure) {
+      CustomDialog.hideDialog(context);
       ToastUtils.failure(state.msg);
+
     }
   }
 }
