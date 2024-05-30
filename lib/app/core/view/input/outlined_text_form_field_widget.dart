@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 
 class OutLineTextFormField extends StatelessWidget {
   final TextEditingController controller;
-  final int maxLines, minLines;
   final TextInputType textInputType;
   final String labelText;
   final int? maxLength;
-  final AutovalidateMode autoValidateMode;
   final bool obscureText;
   final InputTypeEnum inputTypeEnum;
-
+  final String? Function(String? val)? validator;
   final Icon prefixIcon;
   final IconButton? suffixIconButton;
   final bool showSuffixIcon;
@@ -19,17 +17,15 @@ class OutLineTextFormField extends StatelessWidget {
   const OutLineTextFormField({
     super.key,
     required this.controller,
-    this.maxLines = 1,
-    this.minLines = 1,
     this.textInputType = TextInputType.text,
     this.labelText = "",
     this.maxLength,
-    this.autoValidateMode = AutovalidateMode.disabled,
     this.obscureText = false,
     required this.prefixIcon,
     this.showSuffixIcon = false,
     this.suffixIconButton,
     required this.inputTypeEnum,
+    this.validator,
   });
 
   @override
@@ -45,10 +41,7 @@ class OutLineTextFormField extends StatelessWidget {
     );
     return TextFormField(
       maxLength: maxLength,
-      minLines: minLines,
-      maxLines: maxLines,
       controller: controller,
-      autovalidateMode: autoValidateMode,
       textInputAction: TextInputAction.next,
       keyboardType: textInputType,
       obscureText: obscureText,
@@ -65,6 +58,7 @@ class OutLineTextFormField extends StatelessWidget {
         focusedErrorBorder: focusedErrorBorder,
       ),
       validator: (value) {
+        if(validator!=null) return validator!(value);
         switch (inputTypeEnum) {
           case InputTypeEnum.email:
             RegExp regex = RegExp(
@@ -101,6 +95,7 @@ class OutLineTextFormField extends StatelessWidget {
                 return null;
               }
             }
+
         }
       },
       onTapOutside: (event) {

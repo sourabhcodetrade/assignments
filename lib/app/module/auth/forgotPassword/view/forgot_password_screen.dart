@@ -98,7 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             prefixIcon:
                                 const Icon(Icons.share_arrival_time_outlined),
                             labelText: "OTP",
-                            maxLength: 4,
+                            maxLength: 6,
                             textInputType: TextInputType.number,
                             inputTypeEnum: InputTypeEnum.otp,
                           ),

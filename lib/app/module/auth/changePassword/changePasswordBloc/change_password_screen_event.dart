@@ -1,10 +1,8 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 @immutable
 sealed class ChangePasswordScreenEvent extends Equatable {
-
   const ChangePasswordScreenEvent();
 
   @override
@@ -12,12 +10,13 @@ sealed class ChangePasswordScreenEvent extends Equatable {
 }
 
 final class ChangePassword extends ChangePasswordScreenEvent {
-  final String oldPassword;
+  final String currentPassword;
   final String newPassword;
+  final String confirmPassword;
 
-  const ChangePassword(this.oldPassword, this.newPassword);
+  const ChangePassword(
+      this.currentPassword, this.newPassword, this.confirmPassword);
 
   @override
-  List<Object> get props => [oldPassword, newPassword];
-
+  List<Object> get props => [currentPassword, newPassword, confirmPassword];
 }

@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     appState.setInitialValue();
     Future.delayed(const Duration(seconds: 3),() {
-      context.pushReplacementNamed(Routes.loginScreen);
+      context.pushReplacementNamed(Routes.changePassword);
     },);
     super.initState();
   }

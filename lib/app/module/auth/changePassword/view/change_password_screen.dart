@@ -25,7 +25,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController currentPasswordController =
       TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController repeatNewPasswordController =
+  final TextEditingController confirmPasswordController =
       TextEditingController();
   bool isPasswordVisible = false;
   @override
@@ -73,11 +73,28 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               ),
                               const Gap(10),
                               OutLineTextFormField(
-                                controller: repeatNewPasswordController,
+                                controller: confirmPasswordController,
                                 prefixIcon: const Icon(Icons.lock_outline),
                                 obscureText: !isPasswordVisible,
                                 showSuffixIcon: true,
                                 inputTypeEnum: InputTypeEnum.password,
+                                validator: (value) {
+                                  RegExp regex = RegExp(
+                                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
+                                  if (value!.isEmpty) {
+                                    return "Please enter confirm password";
+                                  } else {
+                                    if (newPasswordController.text != value) {
+                                      return "Password not matched ${newPasswordController.text} != $value}";
+                                    } else {
+                                      if (!regex.hasMatch(value)) {
+                                        return "Enter valid password";
+                                      } else {
+                                        return null;
+                                      }
+                                    }
+                                  }
+                                },
                                 suffixIconButton: IconButton(
                                     onPressed: () {
                                       setState(() {
@@ -87,7 +104,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     icon: isPasswordVisible
                                         ? const Icon(Icons.visibility)
                                         : const Icon(Icons.visibility_off)),
-                                labelText: "Repeat New password",
+                                labelText: "Confirm password",
                               ),
                             ],
                           ),
@@ -97,8 +114,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             onPressed: () {
                               if (changePasswordKey.currentState!.validate()) {
                                 context.read<ChangePasswordScreenBloc>().add(
-                                    ChangePassword(currentPasswordController.text,
-                                        newPasswordController.text));
+                                    ChangePassword(
+                                        currentPasswordController.text,
+                                        newPasswordController.text,
+                                        confirmPasswordController.text));
                               } else {
                                 print("Validation error");
                               }
@@ -119,7 +138,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                       ),
                     );
-                  } else {
+                  }
+                  else {
                     return const Center(
                       child: RoundedRectangleBorderLoadingWidget(
                         height: 100,
