@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     appState.setInitialValue();
-    Future.delayed(const Duration(seconds: 3),() {
+    Future.delayed(const Duration(seconds: 2),() {
       context.pushReplacementNamed(Routes.loginScreen);
     },);
     super.initState();

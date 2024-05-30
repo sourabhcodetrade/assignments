@@ -4,6 +4,7 @@ import 'package:firebase_auth_project/app/core/view/buttons/custom_button.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_app_bar_widget.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -42,115 +43,120 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Scaffold build(BuildContext context) => Scaffold(
-        appBar: const CustomAppBar("Login"),
-        body: BlocListener<LoginScreenBloc, LoginScreenState>(
-          listener: _loginBlocListener,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Gap(50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset("assets/images/firebase.svg"),
-                      const Gap(5),
-                      const Text(
-                        "Log In",
-                        style: TextStyle(
-                          fontSize: 40,
-                          color: ColorConstants.primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(50),
-                  Form(
-                    key: _loginFormKey,
-                    child: Column(
+  PopScope build(BuildContext context) => PopScope(
+    onPopInvoked: (didPop) {
+      SystemNavigator.pop();
+    },
+    child: Scaffold(
+          appBar: const CustomAppBar("Login"),
+          body: BlocListener<LoginScreenBloc, LoginScreenState>(
+            listener: _loginBlocListener,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Gap(50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        OutLineTextFormField(
-                          controller: _emailController,
-                          prefixIcon: const Icon(Icons.email),
-                          labelText: "E-Mail",
-                          inputTypeEnum: InputTypeEnum.email,
-                        ),
-                        const Gap(10),
-                        OutLineTextFormField(
-                          controller: _passwordController,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          obscureText: !_isPasswordVisible,
-                          showSuffixIcon: true,
-                          labelText: "Password",
-                          textInputType: TextInputType.visiblePassword,
-                          inputTypeEnum: InputTypeEnum.password,
-                          suffixIconButton: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                              icon: _isPasswordVisible
-                                  ? const Icon(Icons.visibility)
-                                  : const Icon(Icons.visibility_off)),
+                        SvgPicture.asset("assets/images/firebase.svg"),
+                        const Gap(5),
+                        const Text(
+                          "Log In",
+                          style: TextStyle(
+                            fontSize: 40,
+                            color: ColorConstants.primaryColor,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  const Gap(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.pushReplacementNamed(Routes.signupScreen);
-                        },
-                        child: const Text(
-                          "Create an account",
-                          style: TextStyle(
-                            color: ColorConstants.primaryColor,
-                            fontWeight: FontWeight.w600,
+                    const Gap(50),
+                    Form(
+                      key: _loginFormKey,
+                      child: Column(
+                        children: [
+                          OutLineTextFormField(
+                            controller: _emailController,
+                            prefixIcon: const Icon(Icons.email),
+                            labelText: "E-Mail",
+                            inputTypeEnum: InputTypeEnum.email,
+                          ),
+                          const Gap(10),
+                          OutLineTextFormField(
+                            controller: _passwordController,
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            obscureText: !_isPasswordVisible,
+                            showSuffixIcon: true,
+                            labelText: "Password",
+                            textInputType: TextInputType.visiblePassword,
+                            inputTypeEnum: InputTypeEnum.password,
+                            suffixIconButton: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                                icon: _isPasswordVisible
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Gap(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.pushReplacementNamed(Routes.signupScreen);
+                          },
+                          child: const Text(
+                            "Create an account",
+                            style: TextStyle(
+                              color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          context.pushNamed(Routes.forgotPasswordScreen);
-                        },
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            color: ColorConstants.primaryColor,
-                            fontWeight: FontWeight.w600,
+                        GestureDetector(
+                          onTap: () {
+                            context.pushNamed(Routes.forgotPasswordScreen);
+                          },
+                          child: const Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Gap(30),
-                  CustomButton(
-                    onPressed: () {
-                      String email = _emailController.text;
-                      String password = _passwordController.text;
-                      if (_loginFormKey.currentState!.validate()) {
-                        context
-                            .read<LoginScreenBloc>()
-                            .add(Login(email, password));
-                      }
-                    },
-                    width: double.infinity,
-                    height: 50,
-                    child: const Text("Log In"),
-                  ),
-                ],
+                      ],
+                    ),
+                    const Gap(30),
+                    CustomButton(
+                      onPressed: () {
+                        String email = _emailController.text;
+                        String password = _passwordController.text;
+                        if (_loginFormKey.currentState!.validate()) {
+                          context
+                              .read<LoginScreenBloc>()
+                              .add(Login(email, password));
+                        }
+                      },
+                      width: double.infinity,
+                      height: 50,
+                      child: const Text("Log In"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      );
+  );
 
   void _loginBlocListener(BuildContext context, LoginScreenState state) {
     if (state is LoginScreenLoading) {
