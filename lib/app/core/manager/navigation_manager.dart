@@ -1,12 +1,12 @@
-import 'package:firebase_auth_project/app/module/auth/changePassword/change_password_screen_bloc.dart';
+import 'package:firebase_auth_project/app/module/auth/changePassword/changePasswordBloc/change_password_screen_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/changePassword/view/change_password_screen.dart';
-import 'package:firebase_auth_project/app/module/auth/forgotPassword/forgot_password_screen_bloc.dart';
+import 'package:firebase_auth_project/app/module/auth/forgotPassword/forgotPasswordBloc/forgot_password_screen_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/forgotPassword/view/forgot_password_screen.dart';
-import 'package:firebase_auth_project/app/module/auth/login/login_screen_bloc.dart';
-import 'package:firebase_auth_project/app/module/auth/signup/singup_screen_bloc.dart';
+import 'package:firebase_auth_project/app/module/auth/signup/signupBloc/singup_screen_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/signup/view/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../module/auth/login/loginBloc/login_screen_bloc.dart';
 import '../../module/auth/login/view/login_screen.dart';
 import '../../module/onboard/view/splash_screen.dart';
 import '../../module/onboard/view/under_development_screen.dart';
@@ -45,14 +45,6 @@ final class NavigationManager {
       Routes.changePassword => BlocProvider(
           create: (BuildContext context) => ChangePasswordScreenBloc(),
           child: const ChangePasswordScreen()),
-      // Routes.homeScreen => MultiBlocProvider(
-      //   providers: [
-      //     BlocProvider(create: (_) => ExportDataBloc()),
-      //     BlocProvider(create: (_) => HomeScreenBloc()),
-      //     BlocProvider(create: (_) => ImportDataBloc()),
-      //   ],
-      //   child: const HomeScreen(),
-      // ),
       _ => const UnderDevelopmentScreen(),
     };
   }

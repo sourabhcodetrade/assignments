@@ -2,7 +2,6 @@ import 'package:firebase_auth_project/app/core/contants/color_constants.dart';
 import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:firebase_auth_project/app/core/view/buttons/custom_button.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_app_bar_widget.dart';
-import 'package:firebase_auth_project/app/module/auth/login/login_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -11,6 +10,9 @@ import '../../../../core/contants/routes.dart';
 import '../../../../core/services/toast_utils.dart';
 import '../../../../core/view/custom/custom_loader_widget.dart';
 import '../../../../core/view/input/outlined_text_form_field_widget.dart';
+import '../loginBloc/login_screen_bloc.dart';
+import '../loginBloc/login_screen_event.dart';
+import '../loginBloc/login_screen_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

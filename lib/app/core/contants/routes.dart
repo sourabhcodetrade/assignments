@@ -1,4 +1,3 @@
-// enum Routes{splashScreen, homeScreen, login,signup,forgotPassword,changePassword}
 
 
 class Routes {

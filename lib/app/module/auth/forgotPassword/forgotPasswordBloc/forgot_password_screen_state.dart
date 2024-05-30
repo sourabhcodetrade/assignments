@@ -1,4 +1,6 @@
-part of 'forgot_password_screen_bloc.dart';
+
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 sealed class ForgotPasswordScreenState extends Equatable {

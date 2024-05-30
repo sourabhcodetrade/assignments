@@ -18,20 +18,16 @@ final class AppState {
 
   String get appVersion => _appVersion;
   double getScreenHeight({double percent = 1}) => _screenSize.height * percent;
-
   double getScreenWidth({double percent = 1}) => _screenSize.width * percent;
-
   //setter
   set setScreenSize(BuildContext context) =>
       _screenSize = MediaQuery.of(context).size;
-
   //methods to initialise
   Future<void> setInitialValue() async {
     await getIt<PackageServices>().getDeviceInfo();
     await _setDeviceId();
     await _setPackageInfo();
   }
-
   Future<void> _setDeviceId() async {
     if (_deviceId.isNotEmpty) {
       debugPrint("Device id is already set");
@@ -43,7 +39,6 @@ final class AppState {
       debugPrint(e.toString());
     }
   }
-
   Future<void> _setPackageInfo() async {
     if (_appVersion.isNotEmpty) {
       debugPrint("Device id is already set");

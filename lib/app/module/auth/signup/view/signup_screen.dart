@@ -10,7 +10,7 @@ import '../../../../core/view/buttons/custom_button.dart';
 import '../../../../core/view/custom/custom_app_bar_widget.dart';
 import '../../../../core/view/custom/custom_loader_widget.dart';
 import '../../../../core/view/input/outlined_text_form_field_widget.dart';
-import '../singup_screen_bloc.dart';
+import '../signupBloc/singup_screen_bloc.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
