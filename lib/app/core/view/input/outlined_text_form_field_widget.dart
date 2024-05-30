@@ -1,15 +1,16 @@
 import 'package:firebase_auth_project/app/core/contants/color_constants.dart';
+import 'package:firebase_auth_project/app/core/services/enum_input_type.dart';
 import 'package:flutter/material.dart';
 
 class OutLineTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final int maxLines, minLines;
   final TextInputType textInputType;
-  final void Function(BuildContext context)? onTap;
   final String labelText;
   final int? maxLength;
   final AutovalidateMode autoValidateMode;
   final bool obscureText;
+  final InputTypeEnum inputTypeEnum;
 
   final Icon prefixIcon;
   final IconButton? suffixIconButton;
@@ -21,7 +22,6 @@ class OutLineTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.minLines = 1,
     this.textInputType = TextInputType.text,
-    this.onTap,
     this.labelText = "",
     this.maxLength,
     this.autoValidateMode = AutovalidateMode.disabled,
@@ -29,6 +29,7 @@ class OutLineTextFormField extends StatelessWidget {
     required this.prefixIcon,
     this.showSuffixIcon = false,
     this.suffixIconButton,
+    required this.inputTypeEnum,
   });
 
   @override
@@ -38,6 +39,9 @@ class OutLineTextFormField extends StatelessWidget {
     );
     const outLinedBorder = OutlineInputBorder(
       borderSide: BorderSide(color: ColorConstants.blackColor, width: 1),
+    );
+    const focusedErrorBorder = OutlineInputBorder(
+      borderSide: BorderSide(color: ColorConstants.redColor, width: 1.5),
     );
     return TextFormField(
       maxLength: maxLength,
@@ -54,13 +58,51 @@ class OutLineTextFormField extends StatelessWidget {
         suffixIcon: showSuffixIcon ? suffixIconButton : null,
         suffixIconColor: ColorConstants.primaryColor,
         labelText: labelText,
-        labelStyle: const TextStyle(
-          color: ColorConstants.blackColor
-        ),
-        errorBorder: outLinedBorder,
+        labelStyle: const TextStyle(color: ColorConstants.blackColor),
+        errorBorder: focusedErrorBorder,
         focusedBorder: focusedOutLinedBorder,
         enabledBorder: outLinedBorder,
+        focusedErrorBorder: focusedErrorBorder,
       ),
+      validator: (value) {
+        switch (inputTypeEnum) {
+          case InputTypeEnum.email:
+            RegExp regex = RegExp(
+                r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+            if (value!.isEmpty) {
+              return "Please enter email";
+            } else {
+              if (!regex.hasMatch(value)) {
+                return "Enter valid email";
+              } else {
+                return null;
+              }
+            }
+          case InputTypeEnum.password:
+            RegExp regex = RegExp(
+                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
+            if (value!.isEmpty) {
+              return "Please enter password";
+            } else {
+              if (!regex.hasMatch(value)) {
+                return "Enter valid password";
+              } else {
+                return null;
+              }
+            }
+          case InputTypeEnum.otp:
+            RegExp regex = RegExp(r'^[0-9]{6}$');
+            if (value!.isEmpty) {
+              return "Please enter otp";
+            } else {
+              if (!regex.hasMatch(value)) {
+                return "OTP must contain 6 digits";
+              } else {
+                return null;
+              }
+            }
+        }
+      },
       onTapOutside: (event) {
         FocusScope.of(context).unfocus();
       },

@@ -14,7 +14,7 @@ class ForgotPasswordScreenBloc
     emit(const ForgotPasswordScreenLoading());
     print(event.email);
     await Future.delayed(const Duration(seconds: 3));
-    if (event.email == 'abc') {
+    if (event.email == 'abc@gmail.com') {
       emit(const ForgotPasswordScreenOtpSentSuccess("Otp Sent Success"));
     } else {
       emit(const ForgotPasswordScreenOtpSentFailure("Otp Sent Failed"));
@@ -26,7 +26,7 @@ class ForgotPasswordScreenBloc
     emit(const ForgotPasswordScreenLoading());
     print(event.otp);
     await Future.delayed(const Duration(seconds: 3));
-    if (event.otp == '1234') {
+    if (event.otp == '123456') {
       emit(
           const ForgotPasswordScreenVerifiedOtpSuccess("Verified Otp Success"));
     } else {

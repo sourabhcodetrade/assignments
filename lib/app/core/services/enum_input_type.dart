@@ -1,0 +1,1 @@
+enum InputTypeEnum{email,password,otp}
