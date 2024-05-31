@@ -47,93 +47,91 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         appBar: const CustomAppBar("Change Password"),
         body: BlocListener<ChangePasswordScreenBloc, ChangePasswordScreenState>(
           listener: _changePasswordBlocListener,
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Gap(50),
-                  const Text(
-                    "Enter details to change password",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: ColorConstants.primaryColor,
-                    ),
+            child: Column(
+              children: [
+                const Gap(50),
+                const Text(
+                  "Enter details to change password",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: ColorConstants.primaryColor,
                   ),
-                  const Gap(50),
-                  Form(
-                    key: _changePasswordKey,
-                    child: Column(
-                      children: [
-                        OutLineTextFormField(
-                          controller: _currentPasswordController,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          labelText: "Current Password",
-                          obscureText: true,
-                          inputTypeEnum: InputTypeEnum.password,
-                        ),
-                        const Gap(10),
-                        OutLineTextFormField(
-                          controller: _newPasswordController,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          obscureText: true,
-                          labelText: "New Password",
-                          inputTypeEnum: InputTypeEnum.password,
-                        ),
-                        const Gap(10),
-                        OutLineTextFormField(
-                          controller: _confirmPasswordController,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          obscureText: !_isPasswordVisible,
-                          showSuffixIcon: true,
-                          inputTypeEnum: InputTypeEnum.password,
-                          validator: (value) {
-                            RegExp regex = RegExp(
-                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
-                            if (value!.isEmpty) {
-                              return "Please enter confirm password";
+                ),
+                const Gap(50),
+                Form(
+                  key: _changePasswordKey,
+                  child: Column(
+                    children: [
+                      OutLineTextFormField(
+                        controller: _currentPasswordController,
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        labelText: "Current Password",
+                        obscureText: true,
+                        inputTypeEnum: InputTypeEnum.password,
+                      ),
+                      const Gap(10),
+                      OutLineTextFormField(
+                        controller: _newPasswordController,
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        obscureText: true,
+                        labelText: "New Password",
+                        inputTypeEnum: InputTypeEnum.password,
+                      ),
+                      const Gap(10),
+                      OutLineTextFormField(
+                        controller: _confirmPasswordController,
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        obscureText: !_isPasswordVisible,
+                        showSuffixIcon: true,
+                        inputTypeEnum: InputTypeEnum.password,
+                        validator: (value) {
+                          RegExp regex = RegExp(
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
+                          if (value!.isEmpty) {
+                            return "Please enter confirm password";
+                          } else {
+                            if (_newPasswordController.text != value) {
+                              return "Password not matched ${_newPasswordController.text} != $value}";
                             } else {
-                              if (_newPasswordController.text != value) {
-                                return "Password not matched ${_newPasswordController.text} != $value}";
+                              if (!regex.hasMatch(value)) {
+                                return "Enter valid password";
                               } else {
-                                if (!regex.hasMatch(value)) {
-                                  return "Enter valid password";
-                                } else {
-                                  return null;
-                                }
+                                return null;
                               }
                             }
-                          },
-                          suffixIconButton: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                              icon: _isPasswordVisible
-                                  ? const Icon(Icons.visibility)
-                                  : const Icon(Icons.visibility_off)),
-                          labelText: "Confirm password",
-                        ),
-                      ],
-                    ),
+                          }
+                        },
+                        suffixIconButton: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                            icon: _isPasswordVisible
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off)),
+                        labelText: "Confirm password",
+                      ),
+                    ],
                   ),
-                  const Gap(30),
-                  CustomButton(
-                      onPressed: () {
-                        if (_changePasswordKey.currentState!.validate()) {
-                          context.read<ChangePasswordScreenBloc>().add(
-                              ChangePassword(
-                                  _currentPasswordController.text,
-                                  _newPasswordController.text,
-                                  _confirmPasswordController.text));
-                        }
-                      },
-                      width: double.infinity,
-                      height: 50,
-                      child: const Text("Submit")),
-                ],
-              ),
+                ),
+                const Gap(30),
+                CustomButton(
+                    onPressed: () {
+                      if (_changePasswordKey.currentState!.validate()) {
+                        context.read<ChangePasswordScreenBloc>().add(
+                            ChangePassword(
+                                _currentPasswordController.text,
+                                _newPasswordController.text,
+                                _confirmPasswordController.text));
+                      }
+                    },
+                    width: double.infinity,
+                    height: 50,
+                    child: const Text("Submit")),
+              ],
             ),
           ),
         ),

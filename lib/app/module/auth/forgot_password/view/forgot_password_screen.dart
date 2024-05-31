@@ -48,105 +48,103 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               listener: _verifyOtpBlocListener,
             ),
           ],
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Gap(50),
-                  BlocBuilder<SendOtpBloc, SendOtpState>(
-                    builder: (context, sendOtpBlocState) {
-                      return BlocBuilder<VerifyOtpBloc, VerifyOtpState>(
-                        builder: (context, verifyOtpBlocState) {
-                          if (sendOtpBlocState is SendOtpFailure ||
-                              sendOtpBlocState is SendOtpInitial ||
-                              sendOtpBlocState is SendOtpLoading) {
-                            return Column(
-                              children: [
-                                const Text(
-                                  "Enter E-mail to verify",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: ColorConstants.primaryColor,
-                                  ),
+            child: Column(
+              children: [
+                const Gap(50),
+                BlocBuilder<SendOtpBloc, SendOtpState>(
+                  builder: (context, sendOtpBlocState) {
+                    return BlocBuilder<VerifyOtpBloc, VerifyOtpState>(
+                      builder: (context, verifyOtpBlocState) {
+                        if (sendOtpBlocState is SendOtpFailure ||
+                            sendOtpBlocState is SendOtpInitial ||
+                            sendOtpBlocState is SendOtpLoading) {
+                          return Column(
+                            children: [
+                              const Text(
+                                "Enter E-mail to verify",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: ColorConstants.primaryColor,
                                 ),
-                                const Gap(50),
-                                Form(
-                                  key: _forgotPasswordFormKey,
-                                  child: OutLineTextFormField(
-                                    controller: _emailController,
-                                    prefixIcon: const Icon(Icons.email),
-                                    labelText: "E-Mail",
-                                    textInputType: TextInputType.emailAddress,
-                                    inputTypeEnum: InputTypeEnum.email,
-                                  ),
+                              ),
+                              const Gap(50),
+                              Form(
+                                key: _forgotPasswordFormKey,
+                                child: OutLineTextFormField(
+                                  controller: _emailController,
+                                  prefixIcon: const Icon(Icons.email),
+                                  labelText: "E-Mail",
+                                  textInputType: TextInputType.emailAddress,
+                                  inputTypeEnum: InputTypeEnum.email,
                                 ),
-                                const Gap(30),
-                                CustomButton(
+                              ),
+                              const Gap(30),
+                              CustomButton(
+                                onPressed: () {
+                                  if (_forgotPasswordFormKey.currentState!
+                                      .validate()) {
+                                    context
+                                        .read<SendOtpBloc>()
+                                        .add(SendOtp(_emailController.text));
+                                  }
+                                },
+                                width: double.infinity,
+                                height: 50,
+                                child: const Text("Send Otp"),
+                              ),
+                            ],
+                          );
+                        }
+                        if (sendOtpBlocState is SendOtpSuccess ||
+                            verifyOtpBlocState is VerifyOtpLoading ||
+                            verifyOtpBlocState is VerifyOtpFailure ||
+                            verifyOtpBlocState is VerifyOtpSuccess) {
+                          return Column(
+                            children: [
+                              const Text(
+                                "Enter OTP to verify",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: ColorConstants.primaryColor,
+                                ),
+                              ),
+                              const Gap(50),
+                              Form(
+                                key: _forgotPasswordFormKey,
+                                child: OutLineTextFormField(
+                                  controller: _otpController,
+                                  prefixIcon: const Icon(
+                                      Icons.share_arrival_time_outlined),
+                                  labelText: "OTP",
+                                  maxLength: 6,
+                                  textInputType: TextInputType.number,
+                                  inputTypeEnum: InputTypeEnum.otp,
+                                ),
+                              ),
+                              const Gap(30),
+                              CustomButton(
                                   onPressed: () {
                                     if (_forgotPasswordFormKey.currentState!
                                         .validate()) {
-                                      context
-                                          .read<SendOtpBloc>()
-                                          .add(SendOtp(_emailController.text));
+                                      context.read<VerifyOtpBloc>().add(
+                                          VerifyOtp(_otpController.text));
                                     }
                                   },
                                   width: double.infinity,
                                   height: 50,
-                                  child: const Text("Send Otp"),
-                                ),
-                              ],
-                            );
-                          }
-                          if (sendOtpBlocState is SendOtpSuccess ||
-                              verifyOtpBlocState is VerifyOtpLoading ||
-                              verifyOtpBlocState is VerifyOtpFailure ||
-                              verifyOtpBlocState is VerifyOtpSuccess) {
-                            return Column(
-                              children: [
-                                const Text(
-                                  "Enter OTP to verify",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                const Gap(50),
-                                Form(
-                                  key: _forgotPasswordFormKey,
-                                  child: OutLineTextFormField(
-                                    controller: _otpController,
-                                    prefixIcon: const Icon(
-                                        Icons.share_arrival_time_outlined),
-                                    labelText: "OTP",
-                                    maxLength: 6,
-                                    textInputType: TextInputType.number,
-                                    inputTypeEnum: InputTypeEnum.otp,
-                                  ),
-                                ),
-                                const Gap(30),
-                                CustomButton(
-                                    onPressed: () {
-                                      if (_forgotPasswordFormKey.currentState!
-                                          .validate()) {
-                                        context.read<VerifyOtpBloc>().add(
-                                            VerifyOtp(_otpController.text));
-                                      }
-                                    },
-                                    width: double.infinity,
-                                    height: 50,
-                                    child: const Text("Verify Otp"))
-                              ],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
+                                  child: const Text("Verify Otp"))
+                            ],
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),

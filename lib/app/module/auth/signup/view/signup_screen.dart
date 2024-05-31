@@ -48,98 +48,96 @@ class _SignupScreenState extends State<SignupScreen> {
           appBar: const CustomAppBar("Signup"),
           body: BlocListener<SignUpScreenBloc, SignUpScreenState>(
             listener: _signUpBlocListener,
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const Gap(50),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/images/firebase.svg"),
-                        const Gap(5),
-                        const Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: ColorConstants.primaryColor,
-                          ),
+              child: Column(
+                children: [
+                  const Gap(50),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/images/firebase.svg"),
+                      const Gap(5),
+                      const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: ColorConstants.primaryColor,
                         ),
-                      ],
-                    ),
-                    const Gap(50),
-                    Form(
-                      key: _signupFormKey,
-                      child: Column(
-                        children: [
-                          OutLineTextFormField(
-                            controller: _emailController,
-                            prefixIcon: const Icon(Icons.email),
-                            labelText: "E-Mail",
-                            inputTypeEnum: InputTypeEnum.email,
-                          ),
-                          const Gap(10),
-                          OutLineTextFormField(
-                            controller: _passwordController,
-                            prefixIcon: const Icon(Icons.lock_outline),
-                            obscureText: true,
-                            showSuffixIcon: true,
-                            labelText: "Password",
-                            inputTypeEnum: InputTypeEnum.password,
-                            suffixIconButton: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.visibility)),
-                          ),
-                        ],
                       ),
-                    ),
-                    const Gap(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ],
+                  ),
+                  const Gap(50),
+                  Form(
+                    key: _signupFormKey,
+                    child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () =>
-                              context.pushReplacementNamed(Routes.loginScreen),
-                          child: const Text(
-                            "Already have an account?",
-                            style: TextStyle(
-                              color: ColorConstants.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                        OutLineTextFormField(
+                          controller: _emailController,
+                          prefixIcon: const Icon(Icons.email),
+                          labelText: "E-Mail",
+                          inputTypeEnum: InputTypeEnum.email,
                         ),
-                        GestureDetector(
-                          onTap: () =>
-                              context.pushNamed(Routes.forgotPasswordScreen),
-                          child: const Text(
-                            "Forgot Password?",
-                            style: TextStyle(
-                              color: ColorConstants.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                        const Gap(10),
+                        OutLineTextFormField(
+                          controller: _passwordController,
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          obscureText: true,
+                          showSuffixIcon: true,
+                          labelText: "Password",
+                          inputTypeEnum: InputTypeEnum.password,
+                          suffixIconButton: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.visibility)),
                         ),
                       ],
                     ),
-                    const Gap(30),
-                    CustomButton(
-                      onPressed: () {
-                        String email = _emailController.text;
-                        String password = _passwordController.text;
-                        if (_signupFormKey.currentState!.validate()) {
-                          context
-                              .read<SignUpScreenBloc>()
-                              .add(SignUp(email, password));
-                        }
-                      },
-                      width: double.infinity,
-                      height: 50,
-                      child: const Text("Create Account"),
-                    ),
-                  ],
-                ),
+                  ),
+                  const Gap(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () =>
+                            context.pushReplacementNamed(Routes.loginScreen),
+                        child: const Text(
+                          "Already have an account?",
+                          style: TextStyle(
+                            color: ColorConstants.primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () =>
+                            context.pushNamed(Routes.forgotPasswordScreen),
+                        child: const Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            color: ColorConstants.primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Gap(30),
+                  CustomButton(
+                    onPressed: () {
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+                      if (_signupFormKey.currentState!.validate()) {
+                        context
+                            .read<SignUpScreenBloc>()
+                            .add(SignUp(email, password));
+                      }
+                    },
+                    width: double.infinity,
+                    height: 50,
+                    child: const Text("Create Account"),
+                  ),
+                ],
               ),
             ),
           ),
