@@ -1,0 +1,1 @@
+enum ApiMethodTypeEnum{get,post,put,delete}

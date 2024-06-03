@@ -163,6 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is LoginScreenSuccess) {
       CustomDialog.hideDialog(context);
       ToastUtils.success(state.msg);
+      context.pushReplacementNamed(Routes.homeScreen);
 
     }
     if (state is LoginScreenFailure) {

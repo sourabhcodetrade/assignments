@@ -47,6 +47,9 @@ dependencies:
   device_info_plus: ^10.1.0
   fluttertoast: ^8.2.5
   equatable: ^2.0.5
+  dio:
+  bloc_concurrency: ^0.2.5
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

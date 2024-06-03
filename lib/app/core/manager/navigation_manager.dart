@@ -1,6 +1,8 @@
 import 'package:firebase_auth_project/app/module/auth/forgot_password/forgot_password_bloc/send_otp_bloc/send_otp_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/forgot_password/forgot_password_bloc/verify_otp_bloc/verify_otp_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/signup/view/signup_screen.dart';
+import 'package:firebase_auth_project/app/module/home/home_bloc/all_hero_bloc.dart';
+import 'package:firebase_auth_project/app/module/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../module/auth/change_password/change_password_bloc/change_password_screen_bloc.dart';
@@ -50,6 +52,9 @@ final class NavigationManager {
       Routes.changePassword => BlocProvider(
           create: (BuildContext context) => ChangePasswordScreenBloc(),
           child: const ChangePasswordScreen()),
+    Routes.homeScreen => BlocProvider(
+        create: (BuildContext context) => AllHeroBloc(),
+        child: const HomeScreen()),
       _ => const UnderDevelopmentScreen(),
     };
   }
