@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:firebase_auth_project/app/core/models/api_response_model.dart';
 import 'package:firebase_auth_project/app/core/services/enum_api_method_type.dart';
 import 'package:http/http.dart' as http;
@@ -34,11 +36,21 @@ class ApiController {
           response = await http.delete(Uri.parse(url), headers: headers);
           break;
       }
-      final String getPrettyJSONString =
-          const JsonEncoder.withIndent(" ").convert(response.body);
+
+      final String prettyJsonString = const JsonEncoder.withIndent('   ')
+          .convert(jsonDecode(response.body));
       log("Response : ");
-      log(getPrettyJSONString);
+      log(prettyJsonString);
       return ApiResponseModel.fromResponse(jsonDecode(response.body));
+    } on SocketException catch (e) {
+      return ApiResponseModel(
+          success: false, result: "", message: e.toString());
+    } on http.ClientException catch (e) {
+      return ApiResponseModel(
+          success: false, result: "", message: e.toString());
+    } on TimeoutException catch (e) {
+      return ApiResponseModel(
+          success: false, result: "", message: e.toString());
     } catch (e) {
       return ApiResponseModel(
           success: false, result: "", message: e.toString());

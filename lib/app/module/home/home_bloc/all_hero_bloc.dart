@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth_project/app/core/controller/api_controller.dart';
+import 'package:firebase_auth_project/app/core/services/enum_api_method_type.dart';
 import 'package:flutter/material.dart';
 import '../../../core/contants/api_contants.dart';
 part 'all_hero_event.dart';
@@ -21,14 +23,15 @@ class AllHeroBloc extends Bloc<AllHeroEvent, AllHeroState> {
     }
 
     try {
-             // ApiController().callAPi(A, params, header)
+      ApiController().callAPi(apiMethodTypeEnum: ApiMethodTypeEnum.get,
+          url: "https://api.coindesk.com/v1/bpi/currentprice.json",
+          headers: {});
       Response response = await Dio().get(
         url,
         options: Options(
           headers: headers,
         ),
       );
-
       if (response.statusCode == 200) {
         List newDataList = jsonDecode(response.data);
         _allHero.addAll(newDataList);
