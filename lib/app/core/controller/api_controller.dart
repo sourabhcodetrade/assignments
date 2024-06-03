@@ -51,8 +51,27 @@ class ApiController {
       return ApiResponseModel(
           success: false, result: "", message: e.toString());
     } catch (e) {
+      final errorMessage =  handleHttpError(e);
       return ApiResponseModel(
-          success: false, result: "", message: e.toString());
+          success: false, result: "", message: errorMessage ?? e.toString());
     }
+  }
+  String? handleHttpError(error) {
+        final statusCode = error.response?.statusCode;
+        if (statusCode != null) {
+          switch (statusCode) {
+            case 400:
+              return "Bad Request";
+            case 401:
+            case 403:
+              return "Unauthorized";
+            case 429:
+              return "Too Many Requests";
+            case 500:
+              return "Internal Server Error";
+          }
+        }
+        return null;
+
   }
 }
