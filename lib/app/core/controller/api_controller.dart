@@ -34,13 +34,11 @@ class ApiController {
           response = await http.delete(Uri.parse(url), headers: headers);
           break;
       }
-      final decodedResponseData = jsonDecode(response.body);
-      log("response: ");
-      log("  success: ${decodedResponseData["result"]["success"]}");
-      log("  result: ${decodedResponseData["result"]["result"]}");
-      log("  message: ${decodedResponseData["result"]["message"]}");
-      return ApiResponseModel.fromResponse(
-          jsonDecode(response.body) as Map<String, dynamic>);
+      final String getPrettyJSONString =
+          const JsonEncoder.withIndent(" ").convert(response.body);
+      log("Response : ");
+      log(getPrettyJSONString);
+      return ApiResponseModel.fromResponse(jsonDecode(response.body));
     } catch (e) {
       return ApiResponseModel(
           success: false, result: "", message: e.toString());

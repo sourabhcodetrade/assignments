@@ -8,19 +8,33 @@ import 'package:dio/dio.dart';
 class ApiControllerDio {
   final Dio dio = Dio();
 
-
-  
   Future<ApiResponseModel> callAPi(
       {required ApiMethodTypeEnum apiMethodTypeEnum,
       required String url,
       Map<String, String> params = const {},
       required Map<String, String> headers}) async {
     final Response response;
-    log("Api Called");
-    log("Request type: ${apiMethodTypeEnum.toString()}");
-    log("url: $url");
-    log("headers: $headers");
-    log("params: $params");
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+        log("Api Called");
+        log('Method: ${options.method}');
+        log('Request path:  ${options.path}');
+        log('Parameter: ${options.method == 'GET' ? options.queryParameters : options.data}');
+        return handler.next(options);
+      },
+      onResponse: (Response response, ResponseInterceptorHandler handler) {
+        log('Response Status code: ${response.statusCode}');
+        final String getPrettyJSONString =
+            const JsonEncoder.withIndent(" ").convert(response.data);
+        log("Response : ");
+        log(getPrettyJSONString);
+        return handler.next(response);
+      },
+      onError: (DioException error, ErrorInterceptorHandler handler) {
+        log('Error: ${error.message}');
+        return handler.next(error);
+      },
+    ));
     try {
       switch (apiMethodTypeEnum) {
         case ApiMethodTypeEnum.get:
@@ -45,12 +59,7 @@ class ApiControllerDio {
           response = await dio.delete(url, options: Options(headers: headers));
           break;
       }
-      final decodedResponseData = jsonDecode(response.data);
-      log("response: ");
-      log("  success: ${decodedResponseData["result"]["success"]}");
-      log("  result: ${decodedResponseData["result"]["result"]}");
-      log("  message: ${decodedResponseData["result"]["message"]}");
-      return ApiResponseModel.fromResponse(decodedResponseData);
+      return ApiResponseModel.fromResponse(jsonDecode(response.data));
     } catch (e) {
       return ApiResponseModel(
           success: false, result: "", message: e.toString());
