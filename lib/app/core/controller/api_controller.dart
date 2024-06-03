@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:firebase_auth_project/app/core/models/api_response_model.dart';
 import 'package:firebase_auth_project/app/core/services/enum_api_method_type.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,11 @@ class ApiController {
       Map<String, String> params = const {},
       required Map<String, String> headers}) async {
     final http.Response response;
+    log("Api Called");
+    log("Request type: ${apiMethodTypeEnum.toString()}");
+    log("url: $url");
+    log("headers: $headers");
+    log("params: $params");
 
     try {
       switch (apiMethodTypeEnum) {
@@ -28,6 +34,11 @@ class ApiController {
           response = await http.delete(Uri.parse(url), headers: headers);
           break;
       }
+      final decodedResponseData = jsonDecode(response.body);
+      log("response: ");
+      log("  success: ${decodedResponseData["result"]["success"]}");
+      log("  result: ${decodedResponseData["result"]["result"]}");
+      log("  message: ${decodedResponseData["result"]["message"]}");
       return ApiResponseModel.fromResponse(
           jsonDecode(response.body) as Map<String, dynamic>);
     } catch (e) {
