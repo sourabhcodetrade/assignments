@@ -36,7 +36,6 @@ class ApiController {
           response = await http.delete(Uri.parse(url), headers: headers);
           break;
       }
-
       final String prettyJsonString = const JsonEncoder.withIndent('   ')
           .convert(jsonDecode(response.body));
       log("Response : ");

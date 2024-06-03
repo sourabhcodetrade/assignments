@@ -5,9 +5,11 @@ class DioExceptionHandler{
   String handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
+        return "Connection Timeout";
       case DioExceptionType.sendTimeout:
+      return "Timeout occurred while sending";
       case DioExceptionType.receiveTimeout:
-        return "Timeout occurred while sending or receiving";
+        return "Timeout occurred while receiving";
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         if (statusCode != null) {
@@ -25,7 +27,7 @@ class DioExceptionHandler{
         }
         break;
       case DioExceptionType.cancel:
-        return " something went wrong";
+        return "Something went wrong";
       case DioExceptionType.unknown:
         return "No Internet Connection";
       case DioExceptionType.badCertificate:
