@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:firebase_auth_project/app/core/models/api_response_model.dart';
 import 'package:firebase_auth_project/app/core/services/enum_api_method_type.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,7 @@ class ApiController {
       Map<String, String> params = const {},
       required Map<String, String> headers}) async {
     final http.Response response;
+
     try {
       switch (apiMethodTypeEnum) {
         case ApiMethodTypeEnum.get:
