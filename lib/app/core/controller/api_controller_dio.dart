@@ -12,6 +12,7 @@ class ApiControllerDio {
       required Map<String, String> headers}) async {
     final Response response;
     final Dio dio = Dio();
+    
     try {
       switch (apiMethodTypeEnum) {
         case ApiMethodTypeEnum.get:
