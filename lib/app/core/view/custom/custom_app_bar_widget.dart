@@ -1,5 +1,4 @@
 import 'package:firebase_auth_project/app/core/contants/color_constants.dart';
-import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -25,7 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? leading ??
                 IconButton(
                   onPressed: () {
-                    context.pop();
+                    Navigator.of(context).pop();
                   },
                   icon: const Icon(
                     Icons.arrow_back,

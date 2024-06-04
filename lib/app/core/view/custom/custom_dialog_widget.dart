@@ -1,10 +1,9 @@
-import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_loader_widget.dart';
 
 final class CustomDialog {
-  static void hideDialog(BuildContext context) => context.pop();
+  static void hideDialog(BuildContext context) => Navigator.of(context).pop();
 
   static void showLoader(BuildContext context) => showDialog(
         barrierDismissible: false,

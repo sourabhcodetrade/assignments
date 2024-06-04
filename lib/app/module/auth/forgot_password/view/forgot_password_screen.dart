@@ -1,4 +1,3 @@
-import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_dialog_widget.dart';
 import 'package:firebase_auth_project/app/module/auth/forgot_password/forgot_password_bloc/send_otp_bloc/send_otp_bloc.dart';
 import 'package:firebase_auth_project/app/module/auth/forgot_password/forgot_password_bloc/verify_otp_bloc/verify_otp_bloc.dart';
@@ -172,7 +171,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     if (state is VerifyOtpSuccess) {
       CustomDialog.hideDialog(context);
       ToastUtils.success(state.msg);
-      context.pop();
+      Navigator.of(context).pop();
     }
     if (state is VerifyOtpFailure) {
       CustomDialog.hideDialog(context);

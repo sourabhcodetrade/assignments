@@ -1,5 +1,4 @@
 import 'package:firebase_auth_project/app/core/services/enum_input_type.dart';
-import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -144,7 +143,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (state is ChangePasswordScreenSuccess) {
       CustomDialog.hideDialog(context);
       ToastUtils.success(state.msg);
-      if (mounted) context.pop();
+      if (mounted) Navigator.of(context).pop();
     }
     if (state is ChangePasswordScreenFailure) {
       CustomDialog.hideDialog(context);

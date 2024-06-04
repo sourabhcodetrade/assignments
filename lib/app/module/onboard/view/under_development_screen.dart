@@ -6,6 +6,7 @@ final class UnderDevelopmentScreen extends StatelessWidget {
 
   @override
   Scaffold build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.red,
         appBar: AppBar(
           title: const Text("Under Development"),
         ),

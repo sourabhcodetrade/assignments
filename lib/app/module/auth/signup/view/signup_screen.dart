@@ -1,5 +1,6 @@
+// ignore_for_file: unused_import
+
 import 'package:firebase_auth_project/app/core/services/enum_input_type.dart';
-import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,112 +41,110 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   @override
-  PopScope build(BuildContext context) => PopScope(
-    onPopInvoked: (didPop) {
-      SystemNavigator.pop();
-    },
-    child: Scaffold(
-          appBar: const CustomAppBar("Signup"),
-          body: BlocListener<SignUpScreenBloc, SignUpScreenState>(
-            listener: _signUpBlocListener,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                children: [
-                  const Gap(50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset("assets/images/firebase.svg"),
-                      const Gap(5),
-                      const Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          fontSize: 40,
-                          color: ColorConstants.primaryColor,
-                        ),
+  Scaffold build(BuildContext context) => Scaffold(
+        appBar: const CustomAppBar(
+          "Login",
+          showLeading: false,
+        ),
+        body: BlocListener<SignUpScreenBloc, SignUpScreenState>(
+          listener: _signUpBlocListener,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                const Gap(50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset("assets/images/firebase.svg"),
+                    const Gap(5),
+                    const Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        fontSize: 40,
+                        color: ColorConstants.primaryColor,
                       ),
-                    ],
-                  ),
-                  const Gap(50),
-                  Form(
-                    key: _signupFormKey,
-                    child: Column(
-                      children: [
-                        OutLineTextFormField(
-                          controller: _emailController,
-                          prefixIcon: const Icon(Icons.email),
-                          labelText: "E-Mail",
-                          inputTypeEnum: InputTypeEnum.email,
-                        ),
-                        const Gap(10),
-                        OutLineTextFormField(
-                          controller: _passwordController,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          obscureText: true,
-                          showSuffixIcon: true,
-                          labelText: "Password",
-                          inputTypeEnum: InputTypeEnum.password,
-                          suffixIconButton: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.visibility)),
-                        ),
-                      ],
                     ),
-                  ),
-                  const Gap(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ],
+                ),
+                const Gap(50),
+                Form(
+                  key: _signupFormKey,
+                  child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: () =>
-                            context.pushReplacementNamed(Routes.loginScreen),
-                        child: const Text(
-                          "Already have an account?",
-                          style: TextStyle(
-                            color: ColorConstants.primaryColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      OutLineTextFormField(
+                        controller: _emailController,
+                        prefixIcon: const Icon(Icons.email),
+                        labelText: "E-Mail",
+                        inputTypeEnum: InputTypeEnum.email,
                       ),
-                      GestureDetector(
-                        onTap: () =>
-                            context.pushNamed(Routes.forgotPasswordScreen),
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            color: ColorConstants.primaryColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      const Gap(10),
+                      OutLineTextFormField(
+                        controller: _passwordController,
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        obscureText: true,
+                        showSuffixIcon: true,
+                        labelText: "Password",
+                        inputTypeEnum: InputTypeEnum.password,
+                        suffixIconButton: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.visibility)),
                       ),
                     ],
                   ),
-                  const Gap(30),
-                  CustomButton(
-                    onPressed: () {
-                      String email = _emailController.text;
-                      String password = _passwordController.text;
-                      if (_signupFormKey.currentState!.validate()) {
-                        context
-                            .read<SignUpScreenBloc>()
-                            .add(SignUp(email, password));
-                      }
-                    },
-                    width: double.infinity,
-                    height: 50,
-                    child: const Text("Create Account"),
-                  ),
-                ],
-              ),
+                ),
+                const Gap(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () =>
+                          Navigator.of(context).pushReplacementNamed(Routes.loginScreen),
+                      child: const Text(
+                        "Already have an account?",
+                        style: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          Navigator.of(context).pushReplacementNamed(Routes.forgotPasswordScreen),
+                      child: const Text(
+                        "Forgot Password?",
+                        style: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const Gap(30),
+                CustomButton(
+                  onPressed: () {
+                    String email = _emailController.text;
+                    String password = _passwordController.text;
+                    if (_signupFormKey.currentState!.validate()) {
+                      context
+                          .read<SignUpScreenBloc>()
+                          .add(SignUp(email, password));
+                    }
+                  },
+                  width: double.infinity,
+                  height: 50,
+                  child: const Text("Create Account"),
+                ),
+              ],
             ),
           ),
         ),
-  );
+      );
 
   void _signUpBlocListener(BuildContext context, SignUpScreenState state) {
-    if(state is SingUpScreenLoading){
+    if (state is SingUpScreenLoading) {
       CustomDialog.showLoader(context);
     }
     if (state is SignUpScreenSuccess) {

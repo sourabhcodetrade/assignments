@@ -1,4 +1,3 @@
-import 'package:firebase_auth_project/app/core/services/navigation_extension.dart';
 import 'package:firebase_auth_project/app/core/view/custom/custom_loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     appState.setInitialValue();
     Future.delayed(const Duration(seconds: 2),() {
-      context.pushReplacementNamed(Routes.loginScreen);
+      Navigator.of(context).pushReplacementNamed(Routes.loginScreen);
     },);
     super.initState();
   }
