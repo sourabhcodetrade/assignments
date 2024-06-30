@@ -32,7 +32,6 @@ class MainActivity : FlutterActivity() {
             if (call.method == "cameraOn") {
                 myResult = result
                 openCamera()
-
             }
             else {
                 result.notImplemented()

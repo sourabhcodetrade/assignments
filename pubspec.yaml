@@ -38,6 +38,7 @@ dependencies:
   path_provider:
   permission_handler:
   image_picker:
+  bot_toast:
 
 dev_dependencies:
   flutter_test:

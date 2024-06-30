@@ -1,10 +1,10 @@
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:camera_ui/permission_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'custom_dialog.dart';
@@ -18,8 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final platform = const MethodChannel('channel');
-   String imagePath='';
-  bool show = false;
+  String imagePath = '';
 
   @override
   void initState() {
@@ -50,18 +49,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: double.infinity,
-              height: 300,
-              color: Colors.amber,
-              child: show
-                  ? Image.file(File(imagePath))
-                  : const SizedBox.shrink(),
-            ),
+            imagePath.isNotEmpty
+                ? Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.file(
+                          File(imagePath),
+                          filterQuality: FilterQuality.high,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  )
+                : const SizedBox.shrink(),
             ElevatedButton(
-              onPressed: () {
-                _getCamera();
-              },
+              onPressed: _getCamera,
               child: const Text("Camera"),
             ),
           ],
@@ -73,11 +76,95 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<void> _getCamera() async {
     try {
       imagePath = await platform.invokeMethod("cameraOn");
-      show = true;
-      setState(() {});
+      if (imagePath.isNotEmpty) {
+        BotToast.showCustomNotification(
+          toastBuilder: (cancelFunc) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: const DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(child: SizedBox()),
+                      Text(
+                        "Success",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Expanded(child: SizedBox()),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+        setState(() {});
+      } else {
+        BotToast.showCustomNotification(
+          toastBuilder: (cancelFunc) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: const DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(child: SizedBox()),
+                      Text(
+                        "Something went wrong",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Expanded(child: SizedBox()),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      }
     } on PlatformException catch (e) {
-      print('error');
-      print(e);
+      BotToast.showCustomNotification(
+        toastBuilder: (cancelFunc) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: SizedBox()),
+                    Text(
+                      "Something went wrong",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Expanded(child: SizedBox()),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+
+      log('error');
+      log(e.toString());
     }
   }
 }

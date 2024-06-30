@@ -24,7 +24,7 @@ final class PermissionManager {
               'Permission Denied', permission);
         }
       }
-    } on PermissionDeniedException catch (e) {
+    } on PermissionDeniedException {
       await askPermissions(permissions);
     } on PermissionPermanentlyDeniedException catch (e) {
       if (CustomDialog.isDialogVisible) {
