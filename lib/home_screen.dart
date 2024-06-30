@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final platform = const MethodChannel('channel');
-  late Uint8List imageBytearray;
+   String imagePath='';
   bool show = false;
 
   @override
@@ -55,11 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               height: 300,
               color: Colors.amber,
               child: show
-                  ? Image.memory(
-                      imageBytearray,
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
-                    )
+                  ? Image.file(File(imagePath))
                   : const SizedBox.shrink(),
             ),
             ElevatedButton(
@@ -76,10 +72,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> _getCamera() async {
     try {
-      imageBytearray = await platform.invokeMethod("cameraOn");
-      final Directory directory = await getApplicationDocumentsDirectory();
-      File('${directory.path}/${DateTime.now()}.jpg')
-          .writeAsBytes(imageBytearray);
+      imagePath = await platform.invokeMethod("cameraOn");
       show = true;
       setState(() {});
     } on PlatformException catch (e) {
