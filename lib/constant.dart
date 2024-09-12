@@ -1,3 +1,4 @@
-const appId = "012d9db879c7486f989df8a914064b28";
-const token = "007eJxTYGDap+TUrlDQvvNKVnXmauU/3BWL97ycIXbzxY17S/4dcF+pwGBgaJRimZJkYW6ZbG5iYZZmaWGZkmaRaGloYmBmkmRkkdASktYQyMiQ2XiNmZEBAkF8ZoaikmQGBgCWfiCQ";
+const appId = "2c236c8a23114677af763b30d1d54385";
+const token =
+    "007eJxTYHD75vA7OizUwurWMtfdX0KOnr7Nu+yy1upPD3bX6p3dbPtVgcEo2cjYLNki0cjY0NDEzNw8Mc3czDjJ2CDFMMXUxNjCVHnbo7SGQEaGDRbLmBgZIBDEZ2YoKklmYAAA4kshRg==";
 const channel = "rtc";

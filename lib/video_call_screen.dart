@@ -71,7 +71,15 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       token: token,
       channelId: channel,
       uid: 0,
-      options: const ChannelMediaOptions(),
+      options: const ChannelMediaOptions(
+        channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
+        clientRoleType: ClientRoleType.clientRoleBroadcaster,
+        autoSubscribeAudio: true,
+        autoSubscribeVideo: true,
+        audienceLatencyLevel:
+            AudienceLatencyLevelType.audienceLatencyLevelUltraLowLatency,
+        publishMicrophoneTrack: true,
+      ),
     );
   }
 
@@ -85,14 +93,15 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     await _engine.leaveChannel();
     await _engine.release();
   }
+
   Future<void> _switchCamera() async {
     await _engine.switchCamera();
   }
 
   Future<void> _toggleVideo() async {
-    await  _engine.enableLocalVideo(!video);
+    await _engine.enableLocalVideo(!video);
     setState(() {
-      video=!video;
+      video = !video;
     });
   }
 
@@ -102,36 +111,19 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       appBar: AppBar(
         title: const Text('Agora RTC Video Call'),
       ),
-      body: Stack(
-        children: [
-          Center(
-            child: _remoteVideo(),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: SizedBox(
-              width: 100,
-              height: 150,
-              child: video ? Center(
-                child: _localUserJoined
-                    ? AgoraVideoView(
-                        controller: VideoViewController(
-                          rtcEngine: _engine,
-                          canvas: const VideoCanvas(
-                              uid: 0,
-                            mirrorMode: VideoMirrorModeType.videoMirrorModeEnabled,
-                            sourceType: VideoSourceType.videoSourceCameraPrimary,
-                          ),
-                        ),
-                      )
-                    : const Center(child: CircularProgressIndicator()),
-              ) : Container(
-                color: Colors.black,
-                child: const Center(child: Icon(Icons.videocam_off,color: Colors.white,)),
-              ),
-            ),
-          ),
-        ],
+      body: Center(
+        child: _localUserJoined
+            ? AgoraVideoView(
+                controller: VideoViewController(
+                  rtcEngine: _engine,
+                  canvas: const VideoCanvas(
+                    uid: 0,
+                    mirrorMode: VideoMirrorModeType.videoMirrorModeEnabled,
+                    sourceType: VideoSourceType.videoSourceCameraPrimary,
+                  ),
+                ),
+              )
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }
@@ -162,30 +154,36 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                     ),
                     child: const Text("End Call"),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       await _switchCamera();
                     },
                     style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.blueAccent),
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.blueAccent),
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
                     ),
                     child: const Icon(Icons.cameraswitch),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       await _toggleVideo();
-                      setState(() {
-
-                      });
+                      setState(() {});
                     },
                     style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.blueAccent),
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.blueAccent),
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
                     ),
-                    child: video ? const Icon(Icons.videocam): const Icon(Icons.videocam_off),
+                    child: video
+                        ? const Icon(Icons.videocam)
+                        : const Icon(Icons.videocam_off),
                   ),
                 ],
               )),
