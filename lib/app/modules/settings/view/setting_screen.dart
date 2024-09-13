@@ -12,7 +12,7 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  late bool light;
+  bool light = false;
 
   @override
   void initState() {

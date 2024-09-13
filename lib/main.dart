@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mvc/app/controllers/firebase_controller.dart';
 import 'package:mvc/app/controllers/notification_controller.dart';
+import 'package:mvc/app/module/home/test_screen.dart';
 import 'package:mvc/app/modules/auth/controller/auth_controller.dart';
 import 'package:mvc/app/modules/list/view/list_screen.dart';
 import 'package:mvc/app/modules/settings/view/setting_screen.dart';
@@ -19,6 +20,7 @@ import 'app/modules/dashboard/view/home_screen.dart';
 import 'app/modules/onboard/view/splash_screen.dart';
 import 'app/modules/settings/controller/theme_provider.dart';
 import 'app/utils/routes/routes.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
@@ -31,8 +33,9 @@ void main() async {
     messagingSenderId: '179303071162',
     projectId: 'mvcapp-540be',
     storageBucket: 'mvcapp-540be.appspot.com',
-  )
-    );
+    databaseURL:
+        'https://mvcapp-540be-default-rtdb.asia-southeast1.firebasedatabase.app',
+  ));
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -40,6 +43,10 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  await FirebaseAppCheck.instance.activate(
+    // Set androidProvider to `AndroidProvider.debug`
+    androidProvider: AndroidProvider.debug,
+  );
   await NotificationController.init();
   await FirebaseController().initNotification();
   SystemChrome.setPreferredOrientations([
@@ -83,7 +90,7 @@ class MyApp extends StatelessWidget {
           Routes.loginScreen: (context) => const LoginScreen(),
           Routes.homeScreen: (context) => const HomeScreen(),
           Routes.settingsScreen: (context) => const SettingScreen(),
-          Routes.listScreen: (context) => const ListScreen(),
+          Routes.listScreen: (context) => const TestScreen(),
         },
       );
     });

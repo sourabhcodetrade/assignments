@@ -26,13 +26,11 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.mvc"
-<<<<<<< HEAD
     compileSdk 34
     ndkVersion flutter.ndkVersion
-=======
     compileSdk flutter.compileSdkVersion
     ndkVersion "25.1.8937393"
->>>>>>> 73b7f4bad2cd5f5678db5c8492a6a012f378b99f
+
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -76,5 +74,7 @@ flutter {
 
 dependencies {
     //firebase
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
     implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation("com.google.firebase:firebase-analytics")
 }

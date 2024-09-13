@@ -1,5 +1,7 @@
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gtm/gtm.dart';
 import 'package:mvc/app/utils/routes/routes.dart';
 import 'package:provider/provider.dart';
 import '../../auth/controller/auth_controller.dart';
@@ -13,6 +15,51 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+  @override
+  void initState() {
+    analytics.setAnalyticsCollectionEnabled(true);
+
+    try {
+      final gtm = Gtm.instance
+        ..setCustomTagTypes([
+          CustomTagType(
+            'amplitude',
+            handler: (eventName, parameters) {
+              print('amplitude!');
+              print(eventName);
+              print(parameters);
+            },
+          ),
+        ]);
+      gtm.push(
+        'test',
+        parameters: {
+          'user_no': 912342,
+        },
+      );
+      gtm.push(
+        'readCase',
+        parameters: {
+          'user_no': 912342,
+          'user_type': 2,
+        },
+      );
+      gtm.push(
+        'buyEduCamp',
+        parameters: {
+          'user_no': 912342,
+          'price': 10000.0,
+        },
+      );
+    } on PlatformException {
+      print('exception occurred!');
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
@@ -20,7 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await analytics.logEvent(
+                name: 'pages_tracked',
+                parameters: {'page_name': 'setting_screen'},
+              );
               Navigator.pushNamed(context, Routes.settingsScreen);
             },
             icon: const Icon(
@@ -65,6 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
               onPressed: () async {
                 await authController.signOut();
+                await analytics.logEvent(
+                  name: 'pages_tracked',
+                  parameters: {'page_name': 'log_out'},
+                );
                 if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       Routes.loginScreen, (Route<dynamic> route) => false);
@@ -79,7 +134,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                await authController.signOut();
+                // await authController.signOut();
+                await analytics.logEvent(
+                  name: 'pages_tracked',
+                  parameters: {'page_name': 'list_screen'},
+                );
                 if (context.mounted) {
                   Navigator.of(context).pushNamed(Routes.listScreen);
                 }
