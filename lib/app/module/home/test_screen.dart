@@ -38,6 +38,8 @@ class _TestScreenState extends State<TestScreen> {
   Stream<List<MessageModel>> get messageStream =>
       _messageStreamController.stream;
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,7 @@ class _TestScreenState extends State<TestScreen> {
       final newMessage = MessageModel.fromJson(data);
       _messageModel.add(newMessage);
       _messageStreamController.add(_messageModel);
+      _scrollToBottom();
     });
   }
 
@@ -70,6 +73,14 @@ class _TestScreenState extends State<TestScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
   }
 
   @override
@@ -100,6 +111,7 @@ class _TestScreenState extends State<TestScreen> {
                   return SizedBox(
                     height: 500,
                     child: ListView.separated(
+                      controller: _scrollController,
                       itemBuilder: (context, index) {
                         return Container(
                           color: Colors.grey,
